@@ -5,6 +5,7 @@ import Button from "@mui/material/Button";
 import Avatar from "@mui/material/Avatar";
 import Chip from "@mui/material/Chip";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
+import DownloadIcon from "@mui/icons-material/Download";
 import PlaceOutlinedIcon from "@mui/icons-material/PlaceOutlined";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import SpaOutlinedIcon from "@mui/icons-material/SpaOutlined";
@@ -167,6 +168,23 @@ export function HeroSection() {
             sx={{ px: 3 }}
           >
             Get in Touch
+          </Button>
+          <Button
+            variant="outlined"
+            startIcon={<DownloadIcon />}
+            href="/PaviSelvakumar_Resume.pdf"
+            download
+            data-testid="button-hero-download-cv"
+            sx={{
+              color: "white",
+              borderColor: "rgba(255,255,255,0.2)",
+              backdropFilter: "blur(12px)",
+              bgcolor: "rgba(255,255,255,0.05)",
+              px: 3,
+              "&:hover": { borderColor: "rgba(255,255,255,0.4)", bgcolor: "rgba(255,255,255,0.1)" },
+            }}
+          >
+            Download CV
           </Button>
           <Button
             variant="outlined"
