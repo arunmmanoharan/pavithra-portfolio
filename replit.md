@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is a personal portfolio website for Pavithra Priyadarshini Selvakumar, a Postdoctoral Research Scientist at Columbia Climate School. The site is a purely static single-page application designed for CDN hosting — no server or database required. It showcases her research background, experience, education, publications, skills, and contact information. The contact form opens the user's email client via mailto:. The portfolio features animated sections, a particle background, smooth scroll navigation, and a responsive design.
+This is a personal portfolio website for Pavithra Priyadarshini Selvakumar, a Postdoctoral Research Scientist at Columbia Climate School. It showcases her research background, experience, education, publications, skills, and contact information. The contact form sends emails via Resend. The portfolio features animated sections, a particle background, smooth scroll navigation, and a responsive design. User intends to deploy as a Static Web App (SWA).
 
 ## User Preferences
 
@@ -13,11 +13,11 @@ Preferred communication style: Simple, everyday language.
 ### Frontend
 - **Framework**: React 18 with TypeScript
 - **Routing**: Wouter (lightweight client-side router) — single page at `/` renders the portfolio, with a 404 catch-all
-- **UI Library**: Material UI (MUI) v6 with Emotion for styling — migrated from shadcn/ui + Tailwind CSS
+- **UI Library**: Material UI (MUI) v6 with Emotion for styling
 - **Theme**: Custom MUI theme in `client/src/lib/theme.ts` with climate-inspired green/blue palette
 - **Animations**: Framer Motion for scroll-triggered section animations, custom canvas-based particle background
 - **State Management**: Local React state only (no server state management needed)
-- **UI Components**: MUI components (Box, Card, Typography, Button, Chip, TextField, Avatar, AppBar, Drawer, LinearProgress, Snackbar/Alert). Legacy shadcn/ui files still exist in `client/src/components/ui/` but are no longer used by active components.
+- **UI Components**: MUI components (Box, Card, Typography, Button, Chip, TextField, Avatar, AppBar, Drawer, LinearProgress, Snackbar/Alert). All legacy shadcn/ui and Radix UI files have been removed.
 - **Custom Hooks**: `useInView` (intersection observer for scroll animations), `useSnackbar` (MUI Snackbar toast system in `client/src/hooks/use-snackbar.tsx`)
 - **Custom CSS Effects**: Gradient text, glass-card with glow borders, morphing blobs, floating particles, typing cursor — defined in `client/src/index.css`
 - **Data**: Portfolio content is hardcoded in `client/src/lib/portfolio-data.ts` — not fetched from a database
@@ -28,7 +28,7 @@ Preferred communication style: Simple, everyday language.
 - **Framework**: Express 5 on Node.js with TypeScript — minimal server for email sending
 - **API**: `POST /api/contact` — validates form data, renders react-email template, sends via Resend
 - **Email**: react-email for HTML email templates (`server/emails/contact-email.tsx`), Resend SDK for delivery
-- **Contact Form**: Submits to `/api/contact` which sends a formatted email to `pavithrapriyadarshini.s@gmail.com`
+- **Contact Form**: Submits to `/api/contact` which sends a formatted email to `pavithra.s@columbia.edu`
 - **Dev Server**: Vite dev server middleware integrated into Express for HMR
 - **Build**: Custom `script/build.ts` uses Vite for client and esbuild for server, outputting to `dist/`
 

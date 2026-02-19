@@ -118,8 +118,7 @@ export function ParticleBackground() {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 pointer-events-none"
-      style={{ zIndex: 0 }}
+      style={{ position: "fixed", inset: 0, pointerEvents: "none", zIndex: 0 }}
     />
   );
 }
