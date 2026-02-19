@@ -13,11 +13,13 @@ Preferred communication style: Simple, everyday language.
 ### Frontend
 - **Framework**: React 18 with TypeScript
 - **Routing**: Wouter (lightweight client-side router) — single page at `/` renders the portfolio, with a 404 catch-all
-- **Styling**: Tailwind CSS with CSS variables for theming, using shadcn/ui component library (New York style)
+- **UI Library**: Material UI (MUI) v6 with Emotion for styling — migrated from shadcn/ui + Tailwind CSS
+- **Theme**: Custom MUI theme in `client/src/lib/theme.ts` with climate-inspired green/blue palette
 - **Animations**: Framer Motion for scroll-triggered section animations, custom canvas-based particle background
 - **State Management**: TanStack React Query for server state (contact form submission)
-- **UI Components**: Full shadcn/ui component library installed under `client/src/components/ui/`
-- **Custom Hooks**: `useInView` (intersection observer for scroll animations), `useIsMobile`, `useToast`
+- **UI Components**: MUI components (Box, Card, Typography, Button, Chip, TextField, Avatar, AppBar, Drawer, LinearProgress, Snackbar/Alert). Legacy shadcn/ui files still exist in `client/src/components/ui/` but are no longer used by active components.
+- **Custom Hooks**: `useInView` (intersection observer for scroll animations), `useSnackbar` (MUI Snackbar toast system in `client/src/hooks/use-snackbar.tsx`)
+- **Custom CSS Effects**: Gradient text, glass-card with glow borders, morphing blobs, floating particles, typing cursor — defined in `client/src/index.css`
 - **Data**: Portfolio content is hardcoded in `client/src/lib/portfolio-data.ts` — not fetched from a database
 - **Build**: Vite with React plugin, outputs to `dist/public`
 - **Path Aliases**: `@/` maps to `client/src/`, `@shared/` maps to `shared/`
@@ -49,7 +51,6 @@ Preferred communication style: Simple, everyday language.
 
 - **PostgreSQL**: Required for persistent data storage (via `DATABASE_URL` environment variable). Drizzle ORM is configured for PostgreSQL. Currently the app runs without it using in-memory storage.
 - **Google Fonts**: Loaded via CDN — Plus Jakarta Sans, Playfair Display, JetBrains Mono, DM Sans, Fira Code, Geist Mono, Architects Daughter
-- **Radix UI**: Full suite of accessible UI primitives via shadcn/ui
 - **Framer Motion**: Animation library for scroll-triggered effects
 - **TanStack React Query**: Server state management for API calls
 - **Replit Plugins**: `@replit/vite-plugin-runtime-error-modal`, `@replit/vite-plugin-cartographer`, `@replit/vite-plugin-dev-banner` (dev only)

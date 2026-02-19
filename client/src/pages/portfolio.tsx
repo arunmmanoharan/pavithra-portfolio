@@ -10,6 +10,7 @@ import { ContactSection } from "@/components/contact-section";
 import { Footer } from "@/components/footer";
 import { useEffect } from "react";
 import { profileData } from "@/lib/portfolio-data";
+import Box from "@mui/material/Box";
 
 export default function Portfolio() {
   useEffect(() => {
@@ -29,35 +30,25 @@ export default function Portfolio() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background text-foreground relative overflow-x-hidden">
+    <Box sx={{ minHeight: "100vh", bgcolor: "background.default", color: "text.primary", position: "relative", overflowX: "hidden" }}>
       <ParticleBackground />
 
-      <div className="blob w-[500px] h-[500px] bg-primary/30 top-[20%] -left-[200px] animate-float-slow animate-morph" />
-      <div className="blob w-[400px] h-[400px] bg-chart-2/25 top-[50%] -right-[150px] animate-float-slow animate-morph" style={{ animationDelay: "-5s" }} />
-      <div className="blob w-[350px] h-[350px] bg-accent/20 top-[75%] left-[10%] animate-float-slow animate-morph" style={{ animationDelay: "-10s" }} />
-      <div className="blob w-[300px] h-[300px] bg-primary/20 top-[30%] right-[20%] animate-float-slow animate-morph" style={{ animationDelay: "-15s" }} />
+      <Box className="blob animate-float-slow animate-morph" sx={{ width: 500, height: 500, bgcolor: "primary.main", opacity: 0.12, top: "20%", left: -200 }} />
+      <Box className="blob animate-float-slow animate-morph" sx={{ width: 400, height: 400, bgcolor: "secondary.main", opacity: 0.1, top: "50%", right: -150, animationDelay: "-5s" }} />
+      <Box className="blob animate-float-slow animate-morph" sx={{ width: 350, height: 350, bgcolor: "warning.main", opacity: 0.08, top: "75%", left: "10%", animationDelay: "-10s" }} />
+      <Box className="blob animate-float-slow animate-morph" sx={{ width: 300, height: 300, bgcolor: "primary.main", opacity: 0.08, top: "30%", right: "20%", animationDelay: "-15s" }} />
 
       <Navigation />
-      <main className="relative z-10">
+      <Box component="main" sx={{ position: "relative", zIndex: 10 }}>
         <HeroSection />
-        <div className="section-divider">
-          <AboutSection />
-        </div>
-        <div className="section-divider">
-          <ExperienceSection />
-        </div>
-        <div className="section-divider">
-          <SkillsSection />
-        </div>
-        <div className="section-divider">
-          <EducationSection />
-        </div>
-        <div className="section-divider">
-          <PublicationsSection />
-        </div>
+        <Box className="section-divider"><AboutSection /></Box>
+        <Box className="section-divider"><ExperienceSection /></Box>
+        <Box className="section-divider"><SkillsSection /></Box>
+        <Box className="section-divider"><EducationSection /></Box>
+        <Box className="section-divider"><PublicationsSection /></Box>
         <ContactSection />
-      </main>
+      </Box>
       <Footer />
-    </div>
+    </Box>
   );
 }

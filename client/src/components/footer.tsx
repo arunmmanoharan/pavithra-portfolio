@@ -1,20 +1,22 @@
 import { profileData } from "@/lib/portfolio-data";
-import { Leaf } from "lucide-react";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import SpaOutlinedIcon from "@mui/icons-material/SpaOutlined";
 
 export function Footer() {
   return (
-    <footer className="py-10 border-t border-border/30 relative">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <div className="flex items-center justify-center gap-2 mb-2">
-          <Leaf className="w-4 h-4 text-primary/50" />
-        </div>
-        <p className="text-sm text-muted-foreground">
+    <Box component="footer" sx={{ py: 5, borderTop: "1px solid", borderColor: "divider" }}>
+      <Box sx={{ maxWidth: 1152, mx: "auto", px: { xs: 2, sm: 3, lg: 4 }, textAlign: "center" }}>
+        <Box sx={{ display: "flex", justifyContent: "center", mb: 1 }}>
+          <SpaOutlinedIcon sx={{ fontSize: 18, color: "primary.main", opacity: 0.5 }} />
+        </Box>
+        <Typography variant="body2" sx={{ color: "text.secondary" }}>
           {new Date().getFullYear()} {profileData.shortName}
-        </p>
-        <p className="text-xs text-muted-foreground/50 mt-1">
+        </Typography>
+        <Typography variant="caption" sx={{ color: "text.secondary", opacity: 0.5, mt: 0.5, display: "block" }}>
           Building a sustainable future, one research project at a time.
-        </p>
-      </div>
-    </footer>
+        </Typography>
+      </Box>
+    </Box>
   );
 }

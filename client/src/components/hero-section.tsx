@@ -1,10 +1,15 @@
 import { motion } from "framer-motion";
-import { MapPin, Mail, ArrowDown, Leaf } from "lucide-react";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import Avatar from "@mui/material/Avatar";
+import Chip from "@mui/material/Chip";
+import MailOutlineIcon from "@mui/icons-material/MailOutline";
+import PlaceOutlinedIcon from "@mui/icons-material/PlaceOutlined";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import SpaOutlinedIcon from "@mui/icons-material/SpaOutlined";
 import { SiLinkedin } from "react-icons/si";
-import { Button } from "@/components/ui/button";
 import { profileData } from "@/lib/portfolio-data";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
 import { useState, useEffect } from "react";
 import profilePhoto from "@assets/pavithra_selvakumar_(1)_1771530074450.jpg";
 
@@ -13,163 +18,194 @@ function TypeWriter({ text, delay = 0 }: { text: string; delay?: number }) {
   const [started, setStarted] = useState(false);
 
   useEffect(() => {
-    const startTimer = setTimeout(() => setStarted(true), delay);
-    return () => clearTimeout(startTimer);
+    const t = setTimeout(() => setStarted(true), delay);
+    return () => clearTimeout(t);
   }, [delay]);
 
   useEffect(() => {
-    if (!started) return;
-    if (displayed.length >= text.length) return;
-    const timer = setTimeout(() => {
-      setDisplayed(text.slice(0, displayed.length + 1));
-    }, 40);
-    return () => clearTimeout(timer);
+    if (!started || displayed.length >= text.length) return;
+    const t = setTimeout(() => setDisplayed(text.slice(0, displayed.length + 1)), 40);
+    return () => clearTimeout(t);
   }, [displayed, started, text]);
 
   return (
     <span>
       {displayed}
       {displayed.length < text.length && (
-        <span className="animate-typing-cursor text-primary">|</span>
+        <span className="animate-typing-cursor" style={{ color: "hsl(152, 55%, 42%)" }}>|</span>
       )}
     </span>
   );
 }
 
 export function HeroSection() {
-  const scrollToAbout = () => {
-    document.querySelector("#about")?.scrollIntoView({ behavior: "smooth" });
-  };
-  const scrollToContact = () => {
-    document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" });
-  };
+  const scrollToAbout = () => document.querySelector("#about")?.scrollIntoView({ behavior: "smooth" });
+  const scrollToContact = () => document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" });
 
   return (
-    <section
+    <Box
+      component="section"
       id="hero"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+      sx={{
+        position: "relative",
+        minHeight: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        overflow: "hidden",
+      }}
     >
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: "url('/images/hero-bg.png')" }}
+      <Box
+        sx={{
+          position: "absolute",
+          inset: 0,
+          backgroundImage: "url('/images/hero-bg.png')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
       />
-      <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-black/60 to-background" />
+      <Box
+        sx={{
+          position: "absolute",
+          inset: 0,
+          background: "linear-gradient(to bottom, rgba(0,0,0,0.75), rgba(0,0,0,0.60), hsl(150,15%,97%))",
+        }}
+      />
 
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-10 w-2 h-2 rounded-full bg-primary/30 animate-float" style={{ animationDelay: "0s" }} />
-        <div className="absolute top-40 right-20 w-1.5 h-1.5 rounded-full bg-chart-2/40 animate-float" style={{ animationDelay: "-2s" }} />
-        <div className="absolute bottom-40 left-1/4 w-1 h-1 rounded-full bg-accent/30 animate-float" style={{ animationDelay: "-4s" }} />
-        <div className="absolute top-1/3 right-1/3 w-2.5 h-2.5 rounded-full bg-primary/20 animate-float" style={{ animationDelay: "-3s" }} />
-        <div className="absolute bottom-60 right-10 w-1.5 h-1.5 rounded-full bg-chart-2/25 animate-float" style={{ animationDelay: "-1s" }} />
-      </div>
+      <Box sx={{ position: "absolute", inset: 0, overflow: "hidden", pointerEvents: "none" }}>
+        <Box className="animate-float" sx={{ position: "absolute", top: 80, left: 40, width: 8, height: 8, borderRadius: "50%", bgcolor: "primary.main", opacity: 0.3 }} />
+        <Box className="animate-float" sx={{ position: "absolute", top: 160, right: 80, width: 6, height: 6, borderRadius: "50%", bgcolor: "secondary.main", opacity: 0.4, animationDelay: "-2s" }} />
+        <Box className="animate-float" sx={{ position: "absolute", bottom: 160, left: "25%", width: 4, height: 4, borderRadius: "50%", bgcolor: "warning.main", opacity: 0.3, animationDelay: "-4s" }} />
+      </Box>
 
-      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center py-20">
+      <Box sx={{ position: "relative", zIndex: 10, maxWidth: 960, mx: "auto", px: { xs: 2, sm: 3, lg: 4 }, textAlign: "center", py: 10 }}>
         <motion.div
           initial={{ opacity: 0, scale: 0.5, y: 30 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          className="mb-8"
+          style={{ marginBottom: 32 }}
         >
-          <div className="relative inline-block">
-            <Avatar className="w-32 h-32 sm:w-40 sm:h-40 mx-auto border-2 border-white/20">
-              <AvatarImage src={profilePhoto} alt="Pavithra Priyadarshini Selvakumar" className="object-cover" />
-              <AvatarFallback className="text-3xl sm:text-4xl font-serif font-bold bg-primary/90 text-primary-foreground">
-                PP
-              </AvatarFallback>
-            </Avatar>
-            <div className="absolute -inset-3 rounded-full border border-primary/20 animate-pulse-glow" />
-            <div className="absolute -inset-6 rounded-full border border-primary/10 animate-pulse-glow" style={{ animationDelay: "-1.5s" }} />
-          </div>
+          <Box sx={{ position: "relative", display: "inline-block" }}>
+            <Avatar
+              src={profilePhoto}
+              alt="Pavithra Priyadarshini Selvakumar"
+              sx={{ width: { xs: 128, sm: 160 }, height: { xs: 128, sm: 160 }, mx: "auto", border: "2px solid rgba(255,255,255,0.2)" }}
+            />
+            <Box className="animate-pulse-glow" sx={{ position: "absolute", inset: -12, borderRadius: "50%", border: "1px solid", borderColor: "primary.main", opacity: 0.3 }} />
+            <Box className="animate-pulse-glow" sx={{ position: "absolute", inset: -24, borderRadius: "50%", border: "1px solid", borderColor: "primary.main", opacity: 0.15, animationDelay: "-1.5s" }} />
+          </Box>
         </motion.div>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.4 }}
-          className="flex justify-center mb-6"
+          style={{ display: "flex", justifyContent: "center", marginBottom: 24 }}
         >
-          <Badge variant="secondary" className="backdrop-blur-md bg-white/8 border-white/10 text-white/85 no-default-hover-elevate no-default-active-elevate px-4 py-1.5">
-            <Leaf className="w-3.5 h-3.5 mr-2" />
-            Environmental Scientist & Researcher
-          </Badge>
+          <Chip
+            icon={<SpaOutlinedIcon sx={{ fontSize: 14, color: "rgba(255,255,255,0.8) !important" }} />}
+            label="Environmental Scientist & Researcher"
+            sx={{
+              bgcolor: "rgba(255,255,255,0.08)",
+              color: "rgba(255,255,255,0.85)",
+              border: "1px solid rgba(255,255,255,0.1)",
+              backdropFilter: "blur(12px)",
+              px: 1,
+            }}
+          />
         </motion.div>
 
-        <motion.h1
+        <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-          className="font-serif text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-6 leading-[1.05] tracking-tight gradient-text-hero"
-          data-testid="text-hero-name"
         >
-          {profileData.name}
-        </motion.h1>
+          <Typography
+            variant="h1"
+            className="gradient-text-hero"
+            data-testid="text-hero-name"
+            sx={{ fontSize: { xs: "2.5rem", sm: "3.75rem", md: "4.5rem", lg: "5.5rem" }, lineHeight: 1.05, mb: 3 }}
+          >
+            {profileData.name}
+          </Typography>
+        </motion.div>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.7 }}
-          className="text-lg sm:text-xl md:text-2xl text-white/70 mb-4 font-light max-w-2xl mx-auto leading-relaxed h-8 sm:h-9"
-          data-testid="text-hero-headline"
         >
-          <TypeWriter text={profileData.tagline} delay={1200} />
+          <Typography
+            data-testid="text-hero-headline"
+            sx={{ fontSize: { xs: "1.1rem", sm: "1.25rem", md: "1.5rem" }, color: "rgba(255,255,255,0.7)", fontWeight: 300, maxWidth: 640, mx: "auto", lineHeight: 1.6, mb: 2, minHeight: { xs: 32, sm: 36 } }}
+          >
+            <TypeWriter text={profileData.tagline} delay={1200} />
+          </Typography>
         </motion.div>
 
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.9 }}
-          className="flex items-center justify-center gap-2 text-white/40 text-sm mb-12"
+          style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, marginBottom: 48 }}
         >
-          <MapPin className="w-4 h-4" />
-          <span>{profileData.location}</span>
+          <PlaceOutlinedIcon sx={{ fontSize: 16, color: "rgba(255,255,255,0.4)" }} />
+          <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.4)" }}>{profileData.location}</Typography>
         </motion.div>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 1.1 }}
-          className="flex flex-wrap items-center justify-center gap-4"
+          style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 16 }}
         >
           <Button
+            variant="contained"
+            startIcon={<MailOutlineIcon />}
             onClick={scrollToContact}
-            className="bg-primary border-primary-border text-primary-foreground px-6"
             data-testid="button-hero-contact"
+            sx={{ px: 3 }}
           >
-            <Mail className="w-4 h-4 mr-2" />
             Get in Touch
           </Button>
-          <a
+          <Button
+            variant="outlined"
+            startIcon={<SiLinkedin />}
             href={profileData.linkedin}
             target="_blank"
             rel="noopener noreferrer"
+            data-testid="button-hero-linkedin"
+            sx={{
+              color: "white",
+              borderColor: "rgba(255,255,255,0.2)",
+              backdropFilter: "blur(12px)",
+              bgcolor: "rgba(255,255,255,0.05)",
+              px: 3,
+              "&:hover": { borderColor: "rgba(255,255,255,0.4)", bgcolor: "rgba(255,255,255,0.1)" },
+            }}
           >
-            <Button
-              variant="outline"
-              className="backdrop-blur-md bg-white/5 border-white/15 text-white px-6"
-              data-testid="button-hero-linkedin"
-            >
-              <SiLinkedin className="w-4 h-4 mr-2" />
-              LinkedIn
-            </Button>
-          </a>
+            LinkedIn
+          </Button>
         </motion.div>
 
-        <motion.button
+        <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.8 }}
-          onClick={scrollToAbout}
-          className="absolute bottom-10 left-1/2 -translate-x-1/2 text-white/30"
-          data-testid="button-scroll-down"
+          style={{ position: "absolute", bottom: 40, left: "50%", transform: "translateX(-50%)" }}
         >
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          <Box
+            component="button"
+            onClick={scrollToAbout}
+            data-testid="button-scroll-down"
+            sx={{ background: "none", border: "none", cursor: "pointer", color: "rgba(255,255,255,0.3)", p: 0 }}
           >
-            <ArrowDown className="w-5 h-5" />
-          </motion.div>
-        </motion.button>
-      </div>
-    </section>
+            <motion.div animate={{ y: [0, 8, 0] }} transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}>
+              <KeyboardArrowDownIcon sx={{ fontSize: 24 }} />
+            </motion.div>
+          </Box>
+        </motion.div>
+      </Box>
+    </Box>
   );
 }

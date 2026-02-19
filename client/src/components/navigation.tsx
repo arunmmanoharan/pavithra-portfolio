@@ -1,7 +1,16 @@
 import { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { motion, AnimatePresence } from "framer-motion";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Button from "@mui/material/Button";
+import Drawer from "@mui/material/Drawer";
+import List from "@mui/material/List";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemText from "@mui/material/ListItemText";
+import Box from "@mui/material/Box";
+import MenuIcon from "@mui/icons-material/Menu";
+import CloseIcon from "@mui/icons-material/Close";
+import { motion } from "framer-motion";
 
 const navLinks = [
   { label: "About", href: "#about" },
@@ -34,7 +43,6 @@ export function Navigation() {
       },
       { threshold: 0.3, rootMargin: "-80px 0px 0px 0px" }
     );
-
     for (const link of navLinks) {
       const el = document.querySelector(link.href);
       if (el) observer.observe(el);
@@ -49,95 +57,113 @@ export function Navigation() {
   };
 
   return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled
-          ? "bg-background/70 dark:bg-background/70 backdrop-blur-2xl border-b border-border/30 shadow-sm"
-          : "bg-transparent"
-      }`}
-      data-testid="nav-bar"
-    >
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+    <>
+      <AppBar
+        position="fixed"
+        elevation={0}
+        data-testid="nav-bar"
+        sx={{
+          bgcolor: scrolled ? "rgba(245,248,245,0.7)" : "transparent",
+          backdropFilter: scrolled ? "blur(24px)" : "none",
+          borderBottom: scrolled ? "1px solid" : "none",
+          borderColor: "divider",
+          transition: "all 0.5s ease",
+        }}
+      >
+        <Toolbar sx={{ maxWidth: 1152, mx: "auto", width: "100%", px: { xs: 2, sm: 3, lg: 4 } }}>
           <Button
-            variant="ghost"
             onClick={() => scrollTo("#hero")}
-            className="font-serif text-lg font-bold tracking-tight"
             data-testid="link-home"
+            sx={{
+              fontFamily: "'Playfair Display', serif",
+              fontSize: "1.15rem",
+              fontWeight: 700,
+              minWidth: "auto",
+              mr: "auto",
+            }}
           >
             <span className="gradient-text">PS</span>
           </Button>
 
-          <div className="hidden md:flex items-center gap-0.5">
+          <Box sx={{ display: { xs: "none", md: "flex" }, gap: 0.5, alignItems: "center" }}>
             {navLinks.map((link) => {
               const isActive = activeSection === link.href.slice(1);
               return (
-                <Button
-                  key={link.href}
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => scrollTo(link.href)}
-                  className={`text-sm font-medium relative ${
-                    isActive
-                      ? "text-primary"
-                      : "text-muted-foreground"
-                  }`}
-                  data-testid={`link-${link.label.toLowerCase()}`}
-                >
-                  {link.label}
+                <Box key={link.href} sx={{ position: "relative" }}>
+                  <Button
+                    size="small"
+                    onClick={() => scrollTo(link.href)}
+                    data-testid={`link-${link.label.toLowerCase()}`}
+                    sx={{
+                      color: isActive ? "primary.main" : "text.secondary",
+                      fontSize: "0.875rem",
+                      fontWeight: 500,
+                      px: 1.5,
+                    }}
+                  >
+                    {link.label}
+                  </Button>
                   {isActive && (
                     <motion.div
                       layoutId="nav-indicator"
-                      className="absolute -bottom-0.5 left-2 right-2 h-0.5 bg-primary rounded-full"
+                      style={{
+                        position: "absolute",
+                        bottom: 0,
+                        left: 12,
+                        right: 12,
+                        height: 2,
+                        borderRadius: 1,
+                        background: "hsl(152, 55%, 33%)",
+                      }}
                       transition={{ type: "spring", stiffness: 400, damping: 30 }}
                     />
                   )}
-                </Button>
+                </Box>
               );
             })}
-          </div>
+          </Box>
 
-          <div className="md:hidden">
-            <Button
-              size="icon"
-              variant="ghost"
-              onClick={() => setMobileOpen(!mobileOpen)}
-              data-testid="button-mobile-menu"
-            >
-              {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-            </Button>
-          </div>
-        </div>
-      </div>
-
-      <AnimatePresence>
-        {mobileOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-background/95 backdrop-blur-2xl border-b border-border/30 overflow-hidden"
+          <IconButton
+            onClick={() => setMobileOpen(!mobileOpen)}
+            data-testid="button-mobile-menu"
+            sx={{ display: { md: "none" }, color: scrolled ? "text.primary" : "white" }}
           >
-            <div className="px-4 py-3 space-y-1">
-              {navLinks.map((link) => (
-                <Button
-                  key={link.href}
-                  variant="ghost"
-                  onClick={() => scrollTo(link.href)}
-                  className={`w-full justify-start text-sm font-medium ${
-                    activeSection === link.href.slice(1)
-                      ? "text-primary"
-                      : "text-muted-foreground"
-                  }`}
-                  data-testid={`link-mobile-${link.label.toLowerCase()}`}
-                >
-                  {link.label}
-                </Button>
-              ))}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </nav>
+            {mobileOpen ? <CloseIcon /> : <MenuIcon />}
+          </IconButton>
+        </Toolbar>
+      </AppBar>
+
+      <Drawer
+        anchor="top"
+        open={mobileOpen}
+        onClose={() => setMobileOpen(false)}
+        sx={{
+          display: { md: "none" },
+          "& .MuiDrawer-paper": {
+            mt: "64px",
+            bgcolor: "rgba(245,248,245,0.95)",
+            backdropFilter: "blur(24px)",
+          },
+        }}
+      >
+        <List sx={{ py: 1 }}>
+          {navLinks.map((link) => (
+            <ListItemButton
+              key={link.href}
+              onClick={() => scrollTo(link.href)}
+              data-testid={`link-mobile-${link.label.toLowerCase()}`}
+              sx={{
+                color: activeSection === link.href.slice(1) ? "primary.main" : "text.secondary",
+              }}
+            >
+              <ListItemText
+                primary={link.label}
+                primaryTypographyProps={{ fontSize: "0.875rem", fontWeight: 500 }}
+              />
+            </ListItemButton>
+          ))}
+        </List>
+      </Drawer>
+    </>
   );
 }

@@ -1,21 +1,23 @@
-import { Card, CardContent } from "@/components/ui/card";
-import { AlertCircle } from "lucide-react";
+import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-gray-50">
-      <Card className="w-full max-w-md mx-4">
-        <CardContent className="pt-6">
-          <div className="flex mb-4 gap-2">
-            <AlertCircle className="h-8 w-8 text-red-500" />
-            <h1 className="text-2xl font-bold text-gray-900">404 Page Not Found</h1>
-          </div>
-
-          <p className="mt-4 text-sm text-gray-600">
-            Did you forget to add the page to the router?
-          </p>
+    <Box sx={{ minHeight: "100vh", width: "100%", display: "flex", alignItems: "center", justifyContent: "center", bgcolor: "background.default" }}>
+      <Card sx={{ maxWidth: 400, mx: 2, width: "100%" }}>
+        <CardContent>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1.5, mb: 2 }}>
+            <ErrorOutlineIcon color="error" sx={{ fontSize: 32 }} />
+            <Typography variant="h5" sx={{ fontWeight: 700 }}>404 Page Not Found</Typography>
+          </Box>
+          <Typography variant="body2" sx={{ color: "text.secondary" }}>
+            The page you are looking for does not exist.
+          </Typography>
         </CardContent>
       </Card>
-    </div>
+    </Box>
   );
 }

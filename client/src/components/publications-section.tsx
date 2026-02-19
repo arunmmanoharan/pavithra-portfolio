@@ -1,9 +1,14 @@
 import { motion } from "framer-motion";
 import { useInView } from "@/hooks/use-in-view";
 import { profileData } from "@/lib/portfolio-data";
-import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { FileText, BookOpen, ExternalLink } from "lucide-react";
+import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
+import Chip from "@mui/material/Chip";
+import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
+import AutoStoriesOutlinedIcon from "@mui/icons-material/AutoStoriesOutlined";
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import { useState } from "react";
 
 function PublicationCard({ pub, index, inView }: { pub: typeof profileData.publications[0]; index: number; inView: boolean }) {
@@ -17,42 +22,47 @@ function PublicationCard({ pub, index, inView }: { pub: typeof profileData.publi
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      <Card className="p-5 glass-card glass-card-glow overflow-visible transition-all duration-300 group">
-        <div className="flex items-start gap-4">
+      <Card className="glass-card glass-card-glow" sx={{ boxShadow: "none", overflow: "visible", transition: "all 0.3s ease" }}>
+        <CardContent sx={{ display: "flex", alignItems: "flex-start", gap: 2, p: 2.5 }}>
           <motion.div
             animate={{ rotate: hovered ? 5 : 0, scale: hovered ? 1.05 : 1 }}
             transition={{ duration: 0.3 }}
-            className="flex-shrink-0 w-10 h-10 rounded-md bg-primary/8 flex items-center justify-center mt-0.5"
           >
-            <FileText className="w-5 h-5 text-primary" />
+            <Box sx={{ width: 40, height: 40, borderRadius: 1, bgcolor: "primary.main", opacity: 0.08, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, position: "relative" }}>
+              <DescriptionOutlinedIcon sx={{ color: "primary.main", position: "absolute" }} />
+            </Box>
           </motion.div>
-          <div className="flex-1 min-w-0">
-            <h3
-              className="text-base font-semibold text-foreground mb-1.5 leading-snug tracking-tight transition-colors duration-300 group-hover:text-primary"
+          <Box sx={{ flex: 1, minWidth: 0 }}>
+            <Typography
+              variant="subtitle1"
               data-testid={`text-pub-title-${index}`}
+              sx={{
+                fontWeight: 600,
+                lineHeight: 1.4,
+                letterSpacing: "-0.01em",
+                mb: 0.75,
+                transition: "color 0.3s ease",
+                color: hovered ? "primary.main" : "text.primary",
+              }}
             >
               {pub.title}
-            </h3>
-            <p className="text-sm text-muted-foreground mb-2.5">
+            </Typography>
+            <Typography variant="body2" sx={{ color: "text.secondary", mb: 1.25 }}>
               {pub.authors}
-            </p>
-            <div className="flex items-center gap-2 flex-wrap">
-              <Badge variant="secondary" className="text-xs">
-                {pub.journal}
-              </Badge>
-              <Badge variant="outline" className="text-xs">
-                {pub.year}
-              </Badge>
+            </Typography>
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1, flexWrap: "wrap" }}>
+              <Chip label={pub.journal} size="small" variant="outlined" sx={{ fontSize: "0.75rem" }} />
+              <Chip label={pub.year} size="small" variant="outlined" sx={{ fontSize: "0.75rem" }} />
               <motion.div
                 initial={false}
                 animate={{ opacity: hovered ? 1 : 0, x: hovered ? 0 : -8 }}
                 transition={{ duration: 0.2 }}
               >
-                <ExternalLink className="w-3.5 h-3.5 text-muted-foreground" />
+                <OpenInNewIcon sx={{ fontSize: 14, color: "text.secondary" }} />
               </motion.div>
-            </div>
-          </div>
-        </div>
+            </Box>
+          </Box>
+        </CardContent>
       </Card>
     </motion.div>
   );
@@ -62,43 +72,32 @@ export function PublicationsSection() {
   const { ref, inView } = useInView();
 
   return (
-    <section id="publications" className="py-28 relative" ref={ref}>
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7 }}
-          className="mb-14"
-        >
-          <div className="flex items-center gap-3 mb-3">
-            <div className="w-10 h-10 rounded-md bg-primary/10 flex items-center justify-center">
-              <BookOpen className="w-5 h-5 text-primary" />
-            </div>
-            <h2
-              className="font-serif text-3xl sm:text-4xl font-bold gradient-text"
-              data-testid="text-publications-title"
-            >
+    <Box component="section" id="publications" ref={ref} sx={{ py: 14 }}>
+      <Box sx={{ maxWidth: 1152, mx: "auto", px: { xs: 2, sm: 3, lg: 4 } }}>
+        <motion.div initial={{ opacity: 0, y: 40 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7 }}>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1.5, mb: 1.5 }}>
+            <Box sx={{ width: 40, height: 40, borderRadius: 1, bgcolor: "primary.main", opacity: 0.1, display: "flex", alignItems: "center", justifyContent: "center", position: "relative" }}>
+              <AutoStoriesOutlinedIcon sx={{ color: "primary.main", position: "absolute" }} />
+            </Box>
+            <Typography variant="h2" className="gradient-text" data-testid="text-publications-title" sx={{ fontSize: { xs: "1.875rem", sm: "2.25rem" } }}>
               Publications
-            </h2>
-          </div>
-          <div className="w-20 h-1 bg-gradient-to-r from-primary to-primary/30 rounded-full ml-[52px]" />
+            </Typography>
+          </Box>
+          <Box sx={{ width: 80, height: 4, background: "linear-gradient(to right, hsl(152,55%,33%), transparent)", borderRadius: 2, ml: "52px", mb: 5 }} />
         </motion.div>
 
-        <div className="space-y-4">
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
           {profileData.publications.map((pub, i) => (
             <PublicationCard key={i} pub={pub} index={i} inView={inView} />
           ))}
-        </div>
+        </Box>
 
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : {}}
-          transition={{ delay: 0.6 }}
-          className="text-sm text-muted-foreground mt-8 text-center"
-        >
-          Plus 4 additional papers submitted or in progress
-        </motion.p>
-      </div>
-    </section>
+        <motion.div initial={{ opacity: 0 }} animate={inView ? { opacity: 1 } : {}} transition={{ delay: 0.6 }}>
+          <Typography variant="body2" sx={{ color: "text.secondary", mt: 4, textAlign: "center" }}>
+            Plus 4 additional papers submitted or in progress
+          </Typography>
+        </motion.div>
+      </Box>
+    </Box>
   );
 }
