@@ -16,34 +16,19 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { SiLinkedin } from "react-icons/si";
 import { useState } from "react";
 import { useSnackbar } from "@/hooks/use-snackbar";
-import { useMutation } from "@tanstack/react-query";
-import { apiRequest } from "@/lib/queryClient";
 
 export function ContactSection() {
   const { ref, inView } = useInView();
   const { showSnackbar } = useSnackbar();
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
 
-  const mutation = useMutation({
-    mutationFn: async (data: { name: string; email: string; message: string }) => {
-      await apiRequest("POST", "/api/contact", data);
-    },
-    onSuccess: () => {
-      showSnackbar({ title: "Message sent!", description: "Thank you for reaching out." });
-      setFormData({ name: "", email: "", message: "" });
-    },
-    onError: () => {
-      showSnackbar({
-        title: "Something went wrong",
-        description: "Please try again or reach out via email directly.",
-        severity: "error",
-      });
-    },
-  });
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    mutation.mutate(formData);
+    const subject = encodeURIComponent(`Portfolio Contact from ${formData.name}`);
+    const body = encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\n${formData.message}`);
+    window.open(`mailto:${profileData.email}?subject=${subject}&body=${body}`, "_self");
+    showSnackbar({ title: "Opening your email client", description: "Your message is ready to send." });
+    setFormData({ name: "", email: "", message: "" });
   };
 
   const contactInfo = [
@@ -170,10 +155,9 @@ export function ContactSection() {
                       variant="contained"
                       fullWidth
                       startIcon={<SendIcon />}
-                      disabled={mutation.isPending}
                       data-testid="button-contact-submit"
                     >
-                      {mutation.isPending ? "Sending..." : "Send Message"}
+                      Send Message
                     </Button>
                   </Box>
                 </form>
