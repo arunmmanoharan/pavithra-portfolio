@@ -6,7 +6,7 @@ import { ContactEmail } from "./emails/contact-email";
 import { insertContactMessageSchema } from "@shared/schema";
 
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
-const RECIPIENT_EMAIL = process.env.CONTACT_EMAIL || "pavithrapriyadarshini.s@gmail.com";
+const RECIPIENT_EMAIL = process.env.CONTACT_EMAIL || "pavithra.s@columbia.edu";
 
 if (!RESEND_API_KEY) {
   console.warn("Warning: RESEND_API_KEY is not set. Contact form emails will not be sent.");
