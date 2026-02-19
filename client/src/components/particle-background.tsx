@@ -49,7 +49,12 @@ export function ParticleBackground() {
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(94, 200, 175, ${p.opacity})`;
+        const colors = [
+          `rgba(46, 125, 50, ${p.opacity})`,
+          `rgba(56, 142, 60, ${p.opacity * 0.8})`,
+          `rgba(27, 94, 32, ${p.opacity * 0.6})`,
+        ];
+        ctx.fillStyle = colors[Math.floor(p.x) % 3];
         ctx.fill();
       }
 
@@ -58,11 +63,11 @@ export function ParticleBackground() {
           const dx = particles[i].x - particles[j].x;
           const dy = particles[i].y - particles[j].y;
           const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 150) {
+          if (dist < 130) {
             ctx.beginPath();
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.strokeStyle = `rgba(94, 200, 175, ${0.08 * (1 - dist / 150)})`;
+            ctx.strokeStyle = `rgba(46, 125, 50, ${0.06 * (1 - dist / 130)})`;
             ctx.lineWidth = 0.5;
             ctx.stroke();
           }

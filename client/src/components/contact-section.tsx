@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Mail, Phone, MapPin, Send } from "lucide-react";
+import { Mail, Phone, MapPin, Send, MessageSquare } from "lucide-react";
 import { SiLinkedin } from "react-icons/si";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
@@ -48,15 +48,18 @@ export function ContactSection() {
   ];
 
   return (
-    <section id="contact" className="py-24 relative" ref={ref}>
+    <section id="contact" className="py-28 relative" ref={ref}>
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7 }}
+          className="mb-12"
         >
-          <div className="flex items-center gap-3 mb-2">
-            <Mail className="w-7 h-7 text-primary" />
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-10 h-10 rounded-md bg-primary/10 flex items-center justify-center">
+              <MessageSquare className="w-5 h-5 text-primary" />
+            </div>
             <h2
               className="font-serif text-3xl sm:text-4xl font-bold text-foreground"
               data-testid="text-contact-title"
@@ -64,28 +67,28 @@ export function ContactSection() {
               Get in Touch
             </h2>
           </div>
-          <div className="w-16 h-1 bg-primary rounded-full mb-10" />
+          <div className="w-20 h-1 bg-gradient-to-r from-primary to-primary/30 rounded-full ml-[52px]" />
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-8">
+        <div className="grid lg:grid-cols-2 gap-10">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <p className="text-muted-foreground mb-8 text-base">
+            <p className="text-muted-foreground mb-8 text-base leading-relaxed">
               Interested in collaboration, research opportunities, or just want to say hello?
-              I'd love to hear from you.
+              I'd love to hear from you. Let's work together to build a more sustainable future.
             </p>
 
-            <div className="space-y-4">
+            <div className="space-y-5">
               {contactInfo.map((item) => (
                 <div key={item.label} className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-md bg-primary/10 flex items-center justify-center flex-shrink-0">
+                  <div className="w-10 h-10 rounded-md bg-primary/8 flex items-center justify-center flex-shrink-0">
                     <item.icon className="w-4 h-4 text-primary" />
                   </div>
                   <div>
-                    <p className="text-xs text-muted-foreground">{item.label}</p>
+                    <p className="text-xs text-muted-foreground uppercase tracking-wider">{item.label}</p>
                     {item.href ? (
                       <a
                         href={item.href}
