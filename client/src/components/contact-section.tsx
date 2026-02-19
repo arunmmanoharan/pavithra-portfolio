@@ -14,6 +14,7 @@ import SendIcon from "@mui/icons-material/Send";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { SiLinkedin } from "react-icons/si";
+import CircularProgress from "@mui/material/CircularProgress";
 import { useState } from "react";
 import { useSnackbar } from "@/hooks/use-snackbar";
 
@@ -21,14 +22,26 @@ export function ContactSection() {
   const { ref, inView } = useInView();
   const { showSnackbar } = useSnackbar();
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+  const [sending, setSending] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const subject = encodeURIComponent(`Portfolio Contact from ${formData.name}`);
-    const body = encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\n${formData.message}`);
-    window.open(`mailto:${profileData.email}?subject=${subject}&body=${body}`, "_self");
-    showSnackbar({ title: "Opening your email client", description: "Your message is ready to send." });
-    setFormData({ name: "", email: "", message: "" });
+    setSending(true);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to send");
+      showSnackbar({ title: "Message sent!", description: "Thanks for reaching out. I'll get back to you soon." });
+      setFormData({ name: "", email: "", message: "" });
+    } catch (err) {
+      showSnackbar({ title: "Failed to send", description: "Something went wrong. Please try again or email me directly." });
+    } finally {
+      setSending(false);
+    }
   };
 
   const contactInfo = [
@@ -154,10 +167,11 @@ export function ContactSection() {
                       type="submit"
                       variant="contained"
                       fullWidth
-                      startIcon={<SendIcon />}
+                      disabled={sending}
+                      startIcon={sending ? <CircularProgress size={16} color="inherit" /> : <SendIcon />}
                       data-testid="button-contact-submit"
                     >
-                      Send Message
+                      {sending ? "Sending..." : "Send Message"}
                     </Button>
                   </Box>
                 </form>

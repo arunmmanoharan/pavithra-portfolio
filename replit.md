@@ -25,19 +25,24 @@ Preferred communication style: Simple, everyday language.
 - **Path Aliases**: `@/` maps to `client/src/`, `@shared/` maps to `shared/`
 
 ### Backend
-- **None** — This is a purely static site. The Express server in `server/` is only used during development to serve Vite HMR. No API routes are active.
-- **Contact Form**: Opens the user's email client via `mailto:` — no server-side processing needed.
-- **Build**: Run `vite build` to generate static files in `dist/public` for CDN deployment.
+- **Framework**: Express 5 on Node.js with TypeScript — minimal server for email sending
+- **API**: `POST /api/contact` — validates form data, renders react-email template, sends via Resend
+- **Email**: react-email for HTML email templates (`server/emails/contact-email.tsx`), Resend SDK for delivery
+- **Contact Form**: Submits to `/api/contact` which sends a formatted email to `pavithrapriyadarshini.s@gmail.com`
+- **Dev Server**: Vite dev server middleware integrated into Express for HMR
+- **Build**: Custom `script/build.ts` uses Vite for client and esbuild for server, outputting to `dist/`
 
 ### Key Design Decisions
-1. **Static site for CDN**: No server or database required. All content is hardcoded in `client/src/lib/portfolio-data.ts`.
+1. **Server-rendered email**: Contact form POSTs to `/api/contact`, which uses react-email + Resend to deliver messages directly to inbox.
 2. **Single-page portfolio**: All content sections (hero, about, experience, skills, education, publications, contact) are rendered on one page with smooth scroll navigation.
-3. **Contact via mailto**: The contact form composes an email and opens the user's email client instead of posting to a backend API.
+3. **Resend for email delivery**: Free tier (100 emails/day). Currently using `onboarding@resend.dev` as sender — can be upgraded with a verified custom domain.
 
 ## External Dependencies
 
 - **Google Fonts**: Loaded via CDN — Plus Jakarta Sans, Playfair Display, JetBrains Mono, DM Sans, Fira Code, Geist Mono, Architects Daughter
 - **Framer Motion**: Animation library for scroll-triggered effects
+- **react-email + @react-email/render**: React components for building email templates (server-side)
+- **Resend**: Email sending API (requires `RESEND_API_KEY` secret)
 - **Replit Plugins**: `@replit/vite-plugin-runtime-error-modal`, `@replit/vite-plugin-cartographer`, `@replit/vite-plugin-dev-banner` (dev only)
 - **react-icons**: Used for social media icons (LinkedIn via `SiLinkedin`)
 - **Recharts**: Charting library available but not currently used in the portfolio
