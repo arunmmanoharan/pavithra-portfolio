@@ -4,6 +4,9 @@ import { profileData } from "@/lib/portfolio-data";
 import { Card } from "@/components/ui/card";
 import { Globe, Award, BookOpen, TreePine } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
+import londonPhoto from "@assets/1531513694529_1771530074454.jpeg";
+import posterPhoto from "@assets/1664215874096_1771530074454.jpeg";
+import teamPhoto from "@assets/1700712310327_1771530074454.jpeg";
 
 function AnimatedCounter({ target, suffix = "", duration = 2000 }: { target: number; suffix?: string; duration?: number }) {
   const [count, setCount] = useState(0);
@@ -167,6 +170,44 @@ export function AboutSection() {
             ))}
           </motion.div>
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7, delay: 0.6 }}
+          className="mt-14"
+        >
+          <div className="grid grid-cols-3 gap-4">
+            {[
+              { src: londonPhoto, alt: "Pavithra at the Palace of Westminster, London", caption: "London, UK" },
+              { src: posterPhoto, alt: "Research poster presentation at conference", caption: "Research Presentation" },
+              { src: teamPhoto, alt: "With research colleagues at Oklahoma State University", caption: "Research Team" },
+            ].map((photo, i) => (
+              <motion.div
+                key={photo.alt}
+                initial={{ opacity: 0, y: 20 }}
+                animate={inView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5, delay: 0.7 + i * 0.12 }}
+                className="group"
+              >
+                <Card className="overflow-hidden glass-card glass-card-glow">
+                  <div className="relative aspect-[4/3] overflow-hidden">
+                    <img
+                      src={photo.src}
+                      alt={photo.alt}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      data-testid={`img-about-${i}`}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <p className="absolute bottom-0 left-0 right-0 px-3 py-2 text-xs text-white font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      {photo.caption}
+                    </p>
+                  </div>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
       </div>
     </section>
   );

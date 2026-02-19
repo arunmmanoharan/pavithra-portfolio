@@ -3,9 +3,10 @@ import { MapPin, Mail, ArrowDown, Leaf } from "lucide-react";
 import { SiLinkedin } from "react-icons/si";
 import { Button } from "@/components/ui/button";
 import { profileData } from "@/lib/portfolio-data";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { useState, useEffect } from "react";
+import profilePhoto from "@assets/pavithra_selvakumar_(1)_1771530074450.jpg";
 
 function TypeWriter({ text, delay = 0 }: { text: string; delay?: number }) {
   const [displayed, setDisplayed] = useState("");
@@ -71,6 +72,7 @@ export function HeroSection() {
         >
           <div className="relative inline-block">
             <Avatar className="w-32 h-32 sm:w-40 sm:h-40 mx-auto border-2 border-white/20">
+              <AvatarImage src={profilePhoto} alt="Pavithra Priyadarshini Selvakumar" className="object-cover" />
               <AvatarFallback className="text-3xl sm:text-4xl font-serif font-bold bg-primary/90 text-primary-foreground">
                 PP
               </AvatarFallback>
