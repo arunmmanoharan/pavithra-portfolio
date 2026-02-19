@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Mail, Phone, MapPin, Send, MessageSquare } from "lucide-react";
+import { Mail, Phone, MapPin, Send, MessageSquare, ArrowRight } from "lucide-react";
 import { SiLinkedin } from "react-icons/si";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
@@ -17,6 +17,7 @@ export function ContactSection() {
   const { ref, inView } = useInView();
   const { toast } = useToast();
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+  const [focused, setFocused] = useState<string | null>(null);
 
   const mutation = useMutation({
     mutationFn: async (data: { name: string; email: string; message: string }) => {
@@ -54,14 +55,14 @@ export function ContactSection() {
           initial={{ opacity: 0, y: 40 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7 }}
-          className="mb-12"
+          className="mb-14"
         >
           <div className="flex items-center gap-3 mb-3">
             <div className="w-10 h-10 rounded-md bg-primary/10 flex items-center justify-center">
               <MessageSquare className="w-5 h-5 text-primary" />
             </div>
             <h2
-              className="font-serif text-3xl sm:text-4xl font-bold text-foreground"
+              className="font-serif text-3xl sm:text-4xl font-bold gradient-text"
               data-testid="text-contact-title"
             >
               Get in Touch
@@ -81,29 +82,41 @@ export function ContactSection() {
               I'd love to hear from you. Let's work together to build a more sustainable future.
             </p>
 
-            <div className="space-y-5">
-              {contactInfo.map((item) => (
-                <div key={item.label} className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-md bg-primary/8 flex items-center justify-center flex-shrink-0">
-                    <item.icon className="w-4 h-4 text-primary" />
-                  </div>
-                  <div>
-                    <p className="text-xs text-muted-foreground uppercase tracking-wider">{item.label}</p>
-                    {item.href ? (
-                      <a
-                        href={item.href}
-                        target={item.href.startsWith("http") ? "_blank" : undefined}
-                        rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                        className="text-sm font-medium text-foreground"
-                        data-testid={`link-contact-${item.label.toLowerCase()}`}
-                      >
-                        {item.value}
-                      </a>
-                    ) : (
-                      <p className="text-sm font-medium text-foreground">{item.value}</p>
-                    )}
-                  </div>
-                </div>
+            <div className="space-y-4">
+              {contactInfo.map((item, i) => (
+                <motion.div
+                  key={item.label}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={inView ? { opacity: 1, x: 0 } : {}}
+                  transition={{ duration: 0.4, delay: 0.3 + i * 0.1 }}
+                >
+                  <Card className="p-4 glass-card glass-card-glow transition-all duration-300 group">
+                    <div className="flex items-center gap-4">
+                      <div className="w-10 h-10 rounded-md bg-primary/8 flex items-center justify-center flex-shrink-0 transition-colors duration-300 group-hover:bg-primary/15">
+                        <item.icon className="w-4 h-4 text-primary" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-xs text-muted-foreground uppercase tracking-wider mb-0.5">{item.label}</p>
+                        {item.href ? (
+                          <a
+                            href={item.href}
+                            target={item.href.startsWith("http") ? "_blank" : undefined}
+                            rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                            className="text-sm font-medium text-foreground truncate block"
+                            data-testid={`link-contact-${item.label.toLowerCase()}`}
+                          >
+                            {item.value}
+                          </a>
+                        ) : (
+                          <p className="text-sm font-medium text-foreground">{item.value}</p>
+                        )}
+                      </div>
+                      {item.href && (
+                        <ArrowRight className="w-4 h-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex-shrink-0" />
+                      )}
+                    </div>
+                  </Card>
+                </motion.div>
               ))}
             </div>
           </motion.div>
@@ -113,36 +126,46 @@ export function ContactSection() {
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.3 }}
           >
-            <Card className="p-6 bg-card/60 dark:bg-card/60 backdrop-blur-sm border border-border/50">
+            <Card className="p-6 glass-card glass-card-glow">
               <form onSubmit={handleSubmit} className="space-y-5">
                 <div>
                   <Label htmlFor="name" className="text-sm font-medium mb-1.5 block">
                     Name
                   </Label>
-                  <Input
-                    id="name"
-                    name="name"
-                    required
-                    value={formData.name}
-                    onChange={(e) => setFormData((d) => ({ ...d, name: e.target.value }))}
-                    placeholder="Your name"
-                    data-testid="input-contact-name"
-                  />
+                  <div className="relative">
+                    <Input
+                      id="name"
+                      name="name"
+                      required
+                      value={formData.name}
+                      onChange={(e) => setFormData((d) => ({ ...d, name: e.target.value }))}
+                      onFocus={() => setFocused("name")}
+                      onBlur={() => setFocused(null)}
+                      placeholder="Your name"
+                      className={`transition-all duration-300 ${focused === "name" ? "border-primary/50 shadow-sm shadow-primary/10" : ""}`}
+                      data-testid="input-contact-name"
+                    />
+                  </div>
                 </div>
                 <div>
                   <Label htmlFor="email" className="text-sm font-medium mb-1.5 block">
                     Email
                   </Label>
-                  <Input
-                    id="email"
-                    name="email"
-                    type="email"
-                    required
-                    value={formData.email}
-                    onChange={(e) => setFormData((d) => ({ ...d, email: e.target.value }))}
-                    placeholder="your@email.com"
-                    data-testid="input-contact-email"
-                  />
+                  <div className="relative">
+                    <Input
+                      id="email"
+                      name="email"
+                      type="email"
+                      required
+                      value={formData.email}
+                      onChange={(e) => setFormData((d) => ({ ...d, email: e.target.value }))}
+                      onFocus={() => setFocused("email")}
+                      onBlur={() => setFocused(null)}
+                      placeholder="your@email.com"
+                      className={`transition-all duration-300 ${focused === "email" ? "border-primary/50 shadow-sm shadow-primary/10" : ""}`}
+                      data-testid="input-contact-email"
+                    />
+                  </div>
                 </div>
                 <div>
                   <Label htmlFor="message" className="text-sm font-medium mb-1.5 block">
@@ -155,18 +178,20 @@ export function ContactSection() {
                     rows={4}
                     value={formData.message}
                     onChange={(e) => setFormData((d) => ({ ...d, message: e.target.value }))}
+                    onFocus={() => setFocused("message")}
+                    onBlur={() => setFocused(null)}
                     placeholder="Your message..."
-                    className="resize-none"
+                    className={`resize-none transition-all duration-300 ${focused === "message" ? "border-primary/50 shadow-sm shadow-primary/10" : ""}`}
                     data-testid="input-contact-message"
                   />
                 </div>
                 <Button
                   type="submit"
-                  className="w-full"
+                  className="w-full group"
                   disabled={mutation.isPending}
                   data-testid="button-contact-submit"
                 >
-                  <Send className="w-4 h-4 mr-2" />
+                  <Send className="w-4 h-4 mr-2 transition-transform duration-300 group-hover:translate-x-0.5" />
                   {mutation.isPending ? "Sending..." : "Send Message"}
                 </Button>
               </form>

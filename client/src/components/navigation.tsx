@@ -52,7 +52,7 @@ export function Navigation() {
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled
-          ? "bg-background/80 dark:bg-background/80 backdrop-blur-xl border-b border-border/50"
+          ? "bg-background/70 dark:bg-background/70 backdrop-blur-2xl border-b border-border/30 shadow-sm"
           : "bg-transparent"
       }`}
       data-testid="nav-bar"
@@ -65,26 +65,36 @@ export function Navigation() {
             className="font-serif text-lg font-bold tracking-tight"
             data-testid="link-home"
           >
-            PS
+            <span className="gradient-text">PS</span>
           </Button>
 
-          <div className="hidden md:flex items-center gap-1">
-            {navLinks.map((link) => (
-              <Button
-                key={link.href}
-                variant="ghost"
-                size="sm"
-                onClick={() => scrollTo(link.href)}
-                className={`text-sm font-medium ${
-                  activeSection === link.href.slice(1)
-                    ? "text-primary"
-                    : "text-muted-foreground"
-                }`}
-                data-testid={`link-${link.label.toLowerCase()}`}
-              >
-                {link.label}
-              </Button>
-            ))}
+          <div className="hidden md:flex items-center gap-0.5">
+            {navLinks.map((link) => {
+              const isActive = activeSection === link.href.slice(1);
+              return (
+                <Button
+                  key={link.href}
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => scrollTo(link.href)}
+                  className={`text-sm font-medium relative ${
+                    isActive
+                      ? "text-primary"
+                      : "text-muted-foreground"
+                  }`}
+                  data-testid={`link-${link.label.toLowerCase()}`}
+                >
+                  {link.label}
+                  {isActive && (
+                    <motion.div
+                      layoutId="nav-indicator"
+                      className="absolute -bottom-0.5 left-2 right-2 h-0.5 bg-primary rounded-full"
+                      transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                    />
+                  )}
+                </Button>
+              );
+            })}
           </div>
 
           <div className="md:hidden">
@@ -106,7 +116,7 @@ export function Navigation() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-background/95 backdrop-blur-xl border-b border-border/50 overflow-hidden"
+            className="md:hidden bg-background/95 backdrop-blur-2xl border-b border-border/30 overflow-hidden"
           >
             <div className="px-4 py-3 space-y-1">
               {navLinks.map((link) => (

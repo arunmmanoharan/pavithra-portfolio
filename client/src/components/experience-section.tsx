@@ -15,14 +15,14 @@ export function ExperienceSection() {
           initial={{ opacity: 0, y: 40 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7 }}
-          className="mb-12"
+          className="mb-14"
         >
           <div className="flex items-center gap-3 mb-3">
             <div className="w-10 h-10 rounded-md bg-primary/10 flex items-center justify-center">
               <Briefcase className="w-5 h-5 text-primary" />
             </div>
             <h2
-              className="font-serif text-3xl sm:text-4xl font-bold text-foreground"
+              className="font-serif text-3xl sm:text-4xl font-bold gradient-text"
               data-testid="text-experience-title"
             >
               Experience
@@ -32,20 +32,34 @@ export function ExperienceSection() {
         </motion.div>
 
         <div className="relative">
-          <div className="absolute left-5 md:left-8 top-0 bottom-0 w-px bg-gradient-to-b from-primary/40 via-border to-transparent" />
+          <motion.div
+            initial={{ scaleY: 0 }}
+            animate={inView ? { scaleY: 1 } : {}}
+            transition={{ duration: 1.5, ease: "easeOut" }}
+            style={{ originY: 0 }}
+            className="absolute left-5 md:left-8 top-0 bottom-0 w-px bg-gradient-to-b from-primary/50 via-primary/20 to-transparent"
+          />
 
           <div className="space-y-6">
             {profileData.experience.map((exp, i) => (
               <motion.div
                 key={exp.id}
-                initial={{ opacity: 0, x: -20 }}
-                animate={inView ? { opacity: 1, x: 0 } : {}}
-                transition={{ duration: 0.6, delay: 0.12 * i }}
+                initial={{ opacity: 0, x: -30, y: 20 }}
+                animate={inView ? { opacity: 1, x: 0, y: 0 } : {}}
+                transition={{ duration: 0.6, delay: 0.15 * i, ease: [0.16, 1, 0.3, 1] }}
                 className="relative pl-14 md:pl-20"
               >
-                <div className="absolute left-3.5 md:left-6.5 top-6 w-3 h-3 rounded-full bg-primary border-2 border-background shadow-sm shadow-primary/30" />
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={inView ? { scale: 1 } : {}}
+                  transition={{ duration: 0.4, delay: 0.15 * i + 0.2, type: "spring" }}
+                  className="absolute left-3 md:left-6 top-6"
+                >
+                  <div className="w-4 h-4 rounded-full bg-primary border-2 border-background shadow-lg shadow-primary/30" />
+                  <div className="absolute inset-0 w-4 h-4 rounded-full bg-primary/30 animate-ping" style={{ animationDuration: "3s" }} />
+                </motion.div>
 
-                <Card className="p-6 bg-card/60 dark:bg-card/60 backdrop-blur-sm border border-border/50 hover-elevate overflow-visible">
+                <Card className="p-6 glass-card glass-card-glow overflow-visible transition-all duration-300">
                   <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-4">
                     <div>
                       <h3
@@ -71,13 +85,16 @@ export function ExperienceSection() {
                   </div>
                   <ul className="space-y-2.5">
                     {exp.highlights.map((h, j) => (
-                      <li
+                      <motion.li
                         key={j}
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={inView ? { opacity: 1, x: 0 } : {}}
+                        transition={{ duration: 0.4, delay: 0.15 * i + 0.3 + j * 0.05 }}
                         className="flex items-start gap-2.5 text-sm text-muted-foreground"
                       >
                         <ChevronRight className="w-3.5 h-3.5 mt-0.5 flex-shrink-0 text-primary/50" />
                         <span>{h}</span>
-                      </li>
+                      </motion.li>
                     ))}
                   </ul>
                 </Card>

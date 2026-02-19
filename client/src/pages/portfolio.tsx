@@ -29,16 +29,32 @@ export default function Portfolio() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background text-foreground relative">
+    <div className="min-h-screen bg-background text-foreground relative overflow-x-hidden">
       <ParticleBackground />
+
+      <div className="blob w-[500px] h-[500px] bg-primary/30 top-[20%] -left-[200px] animate-float-slow animate-morph" />
+      <div className="blob w-[400px] h-[400px] bg-chart-2/25 top-[50%] -right-[150px] animate-float-slow animate-morph" style={{ animationDelay: "-5s" }} />
+      <div className="blob w-[350px] h-[350px] bg-accent/20 top-[75%] left-[10%] animate-float-slow animate-morph" style={{ animationDelay: "-10s" }} />
+      <div className="blob w-[300px] h-[300px] bg-primary/20 top-[30%] right-[20%] animate-float-slow animate-morph" style={{ animationDelay: "-15s" }} />
+
       <Navigation />
       <main className="relative z-10">
         <HeroSection />
-        <AboutSection />
-        <ExperienceSection />
-        <SkillsSection />
-        <EducationSection />
-        <PublicationsSection />
+        <div className="section-divider">
+          <AboutSection />
+        </div>
+        <div className="section-divider">
+          <ExperienceSection />
+        </div>
+        <div className="section-divider">
+          <SkillsSection />
+        </div>
+        <div className="section-divider">
+          <EducationSection />
+        </div>
+        <div className="section-divider">
+          <PublicationsSection />
+        </div>
         <ContactSection />
       </main>
       <Footer />

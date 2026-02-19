@@ -1,16 +1,82 @@
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useTransform, useSpring } from "framer-motion";
 import { useInView } from "@/hooks/use-in-view";
 import { profileData } from "@/lib/portfolio-data";
 import { Card } from "@/components/ui/card";
 import { Globe, Award, BookOpen, TreePine } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+
+function AnimatedCounter({ target, suffix = "", duration = 2000 }: { target: number; suffix?: string; duration?: number }) {
+  const [count, setCount] = useState(0);
+  const [started, setStarted] = useState(false);
+  const ref = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !started) {
+          setStarted(true);
+        }
+      },
+      { threshold: 0.5 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [started]);
+
+  useEffect(() => {
+    if (!started) return;
+    let startTime: number;
+    const step = (timestamp: number) => {
+      if (!startTime) startTime = timestamp;
+      const progress = Math.min((timestamp - startTime) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setCount(Math.floor(eased * target));
+      if (progress < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }, [started, target, duration]);
+
+  return <span ref={ref}>{count}{suffix}</span>;
+}
+
+function TiltCard({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const rotateX = useSpring(useTransform(y, [-0.5, 0.5], [4, -4]), { stiffness: 300, damping: 30 });
+  const rotateY = useSpring(useTransform(x, [-0.5, 0.5], [-4, 4]), { stiffness: 300, damping: 30 });
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    x.set((e.clientX - rect.left) / rect.width - 0.5);
+    y.set((e.clientY - rect.top) / rect.height - 0.5);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+
+  return (
+    <motion.div
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{ rotateX, rotateY, transformPerspective: 800 }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
 
 export function AboutSection() {
   const { ref, inView } = useInView();
 
   const stats = [
-    { icon: BookOpen, label: "Publications", value: "7+", color: "text-primary" },
-    { icon: Award, label: "Grants Received", value: profileData.totalGrantFunding, color: "text-accent" },
-    { icon: Globe, label: "Countries Lived", value: "3", color: "text-chart-2" },
+    { icon: BookOpen, label: "Publications", value: 7, suffix: "+", color: "text-primary" },
+    { icon: Award, label: "Grant Funding", displayValue: profileData.totalGrantFunding, color: "text-accent" },
+    { icon: Globe, label: "Countries", value: 3, suffix: "", color: "text-chart-2" },
   ];
 
   return (
@@ -20,14 +86,14 @@ export function AboutSection() {
           initial={{ opacity: 0, y: 40 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7 }}
-          className="mb-12"
+          className="mb-14"
         >
           <div className="flex items-center gap-3 mb-3">
             <div className="w-10 h-10 rounded-md bg-primary/10 flex items-center justify-center">
               <TreePine className="w-5 h-5 text-primary" />
             </div>
             <h2
-              className="font-serif text-3xl sm:text-4xl font-bold text-foreground"
+              className="font-serif text-3xl sm:text-4xl font-bold gradient-text"
               data-testid="text-about-title"
             >
               About Me
@@ -71,30 +137,33 @@ export function AboutSection() {
             className="lg:col-span-2 space-y-4"
           >
             {stats.map((stat, i) => (
-              <Card
-                key={stat.label}
-                className="p-5 bg-card/60 dark:bg-card/60 backdrop-blur-sm border border-border/50"
-              >
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={inView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.5, delay: 0.5 + i * 0.12 }}
-                  className="flex items-center gap-4"
+              <TiltCard key={stat.label}>
+                <Card
+                  className="p-5 glass-card glass-card-glow"
                 >
-                  <div className="flex-shrink-0 w-12 h-12 rounded-md bg-primary/8 flex items-center justify-center">
-                    <stat.icon className={`w-5 h-5 ${stat.color}`} />
-                  </div>
-                  <div>
-                    <p
-                      className="text-2xl font-bold text-foreground tracking-tight"
-                      data-testid={`text-stat-${stat.label.toLowerCase().replace(/\s/g, "-")}`}
-                    >
-                      {stat.value}
-                    </p>
-                    <p className="text-sm text-muted-foreground">{stat.label}</p>
-                  </div>
-                </motion.div>
-              </Card>
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={inView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ duration: 0.5, delay: 0.5 + i * 0.12 }}
+                    className="flex items-center gap-4"
+                  >
+                    <div className="flex-shrink-0 w-12 h-12 rounded-md bg-primary/8 flex items-center justify-center">
+                      <stat.icon className={`w-5 h-5 ${stat.color}`} />
+                    </div>
+                    <div>
+                      <p
+                        className="text-2xl font-bold text-foreground tracking-tight"
+                        data-testid={`text-stat-${stat.label.toLowerCase().replace(/\s/g, "-")}`}
+                      >
+                        {stat.displayValue ? stat.displayValue : (
+                          <AnimatedCounter target={stat.value!} suffix={stat.suffix} />
+                        )}
+                      </p>
+                      <p className="text-sm text-muted-foreground">{stat.label}</p>
+                    </div>
+                  </motion.div>
+                </Card>
+              </TiltCard>
             ))}
           </motion.div>
         </div>
