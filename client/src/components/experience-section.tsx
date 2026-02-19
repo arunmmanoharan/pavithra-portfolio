@@ -19,8 +19,8 @@ export function ExperienceSection() {
       <Box sx={{ maxWidth: 1152, mx: "auto", px: { xs: 2, sm: 3, lg: 4 } }}>
         <motion.div initial={{ opacity: 0, y: 40 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7 }}>
           <Box sx={{ display: "flex", alignItems: "center", gap: 1.5, mb: 1.5 }}>
-            <Box sx={{ width: 40, height: 40, borderRadius: 1, bgcolor: "primary.main", opacity: 0.1, display: "flex", alignItems: "center", justifyContent: "center", position: "relative" }}>
-              <WorkOutlineIcon sx={{ color: "primary.main", position: "absolute" }} />
+            <Box sx={{ width: 40, height: 40, borderRadius: 1, bgcolor: "hsla(152, 55%, 33%, 0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <WorkOutlineIcon sx={{ color: "primary.main" }} />
             </Box>
             <Typography variant="h2" className="gradient-text" data-testid="text-experience-title" sx={{ fontSize: { xs: "1.875rem", sm: "2.25rem" } }}>
               Experience

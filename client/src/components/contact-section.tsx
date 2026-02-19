@@ -43,8 +43,8 @@ export function ContactSection() {
       <Box sx={{ maxWidth: 1152, mx: "auto", px: { xs: 2, sm: 3, lg: 4 } }}>
         <motion.div initial={{ opacity: 0, y: 40 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7 }}>
           <Box sx={{ display: "flex", alignItems: "center", gap: 1.5, mb: 1.5 }}>
-            <Box sx={{ width: 40, height: 40, borderRadius: 1, bgcolor: "primary.main", opacity: 0.1, display: "flex", alignItems: "center", justifyContent: "center", position: "relative" }}>
-              <ChatBubbleOutlineIcon sx={{ color: "primary.main", position: "absolute" }} />
+            <Box sx={{ width: 40, height: 40, borderRadius: 1, bgcolor: "hsla(152, 55%, 33%, 0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <ChatBubbleOutlineIcon sx={{ color: "primary.main" }} />
             </Box>
             <Typography variant="h2" className="gradient-text" data-testid="text-contact-title" sx={{ fontSize: { xs: "1.875rem", sm: "2.25rem" } }}>
               Get in Touch
@@ -80,9 +80,9 @@ export function ContactSection() {
                     <CardContent sx={{ display: "flex", alignItems: "center", gap: 2, py: 2, "&:last-child": { pb: 2 } }}>
                       <Box
                         className="icon-box"
-                        sx={{ width: 40, height: 40, borderRadius: 1, bgcolor: "primary.main", opacity: 0.08, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, transition: "background-color 0.3s ease", position: "relative" }}
+                        sx={{ width: 40, height: 40, borderRadius: 1, bgcolor: "hsla(152, 55%, 33%, 0.08)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, transition: "background-color 0.3s ease" }}
                       >
-                        <item.icon style={{ fontSize: 18, color: "hsl(152, 55%, 33%)", position: "absolute" }} />
+                        <item.icon style={{ fontSize: 18, color: "hsl(152, 55%, 33%)" }} />
                       </Box>
                       <Box sx={{ flex: 1, minWidth: 0 }}>
                         <Typography variant="overline" sx={{ color: "text.secondary", fontSize: "0.65rem", lineHeight: 1.5 }}>

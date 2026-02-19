@@ -28,8 +28,8 @@ function PublicationCard({ pub, index, inView }: { pub: typeof profileData.publi
             animate={{ rotate: hovered ? 5 : 0, scale: hovered ? 1.05 : 1 }}
             transition={{ duration: 0.3 }}
           >
-            <Box sx={{ width: 40, height: 40, borderRadius: 1, bgcolor: "primary.main", opacity: 0.08, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, position: "relative" }}>
-              <DescriptionOutlinedIcon sx={{ color: "primary.main", position: "absolute" }} />
+            <Box sx={{ width: 40, height: 40, borderRadius: 1, bgcolor: "hsla(152, 55%, 33%, 0.08)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+              <DescriptionOutlinedIcon sx={{ color: "primary.main" }} />
             </Box>
           </motion.div>
           <Box sx={{ flex: 1, minWidth: 0 }}>
@@ -76,8 +76,8 @@ export function PublicationsSection() {
       <Box sx={{ maxWidth: 1152, mx: "auto", px: { xs: 2, sm: 3, lg: 4 } }}>
         <motion.div initial={{ opacity: 0, y: 40 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7 }}>
           <Box sx={{ display: "flex", alignItems: "center", gap: 1.5, mb: 1.5 }}>
-            <Box sx={{ width: 40, height: 40, borderRadius: 1, bgcolor: "primary.main", opacity: 0.1, display: "flex", alignItems: "center", justifyContent: "center", position: "relative" }}>
-              <AutoStoriesOutlinedIcon sx={{ color: "primary.main", position: "absolute" }} />
+            <Box sx={{ width: 40, height: 40, borderRadius: 1, bgcolor: "hsla(152, 55%, 33%, 0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <AutoStoriesOutlinedIcon sx={{ color: "primary.main" }} />
             </Box>
             <Typography variant="h2" className="gradient-text" data-testid="text-publications-title" sx={{ fontSize: { xs: "1.875rem", sm: "2.25rem" } }}>
               Publications

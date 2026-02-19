@@ -41,8 +41,8 @@ export function EducationSection() {
       <Box sx={{ maxWidth: 1152, mx: "auto", px: { xs: 2, sm: 3, lg: 4 } }}>
         <motion.div initial={{ opacity: 0, y: 40 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7 }}>
           <Box sx={{ display: "flex", alignItems: "center", gap: 1.5, mb: 1.5 }}>
-            <Box sx={{ width: 40, height: 40, borderRadius: 1, bgcolor: "primary.main", opacity: 0.1, display: "flex", alignItems: "center", justifyContent: "center", position: "relative" }}>
-              <SchoolOutlinedIcon sx={{ color: "primary.main", position: "absolute" }} />
+            <Box sx={{ width: 40, height: 40, borderRadius: 1, bgcolor: "hsla(152, 55%, 33%, 0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <SchoolOutlinedIcon sx={{ color: "primary.main" }} />
             </Box>
             <Typography variant="h2" className="gradient-text" data-testid="text-education-title" sx={{ fontSize: { xs: "1.875rem", sm: "2.25rem" } }}>
               Education
@@ -63,8 +63,8 @@ export function EducationSection() {
                 <Card className="glass-card glass-card-glow" sx={{ height: "100%", boxShadow: "none", overflow: "visible" }}>
                   <CardContent sx={{ p: 3 }}>
                     <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 1, mb: 2 }}>
-                      <Box sx={{ width: 44, height: 44, borderRadius: 1, bgcolor: "primary.main", opacity: 0.1, display: "flex", alignItems: "center", justifyContent: "center", position: "relative" }}>
-                        <SchoolOutlinedIcon sx={{ color: "primary.main", position: "absolute" }} />
+                      <Box sx={{ width: 44, height: 44, borderRadius: 1, bgcolor: "hsla(152, 55%, 33%, 0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                        <SchoolOutlinedIcon sx={{ color: "primary.main" }} />
                       </Box>
                       {edu.gpa && (
                         <Chip
@@ -104,8 +104,8 @@ export function EducationSection() {
         <motion.div initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay: 0.5 }}>
           <Box sx={{ mt: 7 }}>
             <Box sx={{ display: "flex", alignItems: "center", gap: 1.5, mb: 3 }}>
-              <Box sx={{ width: 32, height: 32, borderRadius: 1, bgcolor: "warning.main", opacity: 0.1, display: "flex", alignItems: "center", justifyContent: "center", position: "relative" }}>
-                <EmojiEventsOutlinedIcon sx={{ color: "warning.main", fontSize: 18, position: "absolute" }} />
+              <Box sx={{ width: 32, height: 32, borderRadius: 1, bgcolor: "hsla(38, 70%, 50%, 0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <EmojiEventsOutlinedIcon sx={{ color: "warning.main", fontSize: 18 }} />
               </Box>
               <Typography variant="h3" sx={{ fontSize: "1.25rem", fontWeight: 700, letterSpacing: "-0.01em" }}>
                 Awards & Grants
