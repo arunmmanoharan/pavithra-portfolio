@@ -12,14 +12,14 @@ if (!RESEND_API_KEY) {
   console.warn("Warning: RESEND_API_KEY is not set. Contact form emails will not be sent.");
 }
 
-const resend = new Resend(RESEND_API_KEY);
+const resend = RESEND_API_KEY ? new Resend(RESEND_API_KEY) : null;
 
 export async function registerRoutes(
   httpServer: Server,
   app: Express
 ): Promise<Server> {
   app.post("/api/contact", async (req, res) => {
-    if (!RESEND_API_KEY) {
+    if (!resend) {
       return res.status(503).json({ error: "Email service is not configured." });
     }
 
