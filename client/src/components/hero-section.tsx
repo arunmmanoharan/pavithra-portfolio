@@ -150,8 +150,8 @@ export function HeroSection() {
           transition={{ duration: 0.8, delay: 0.9 }}
           style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, marginBottom: 48 }}
         >
-          <PlaceOutlinedIcon sx={{ fontSize: 16, color: "rgba(255,255,255,0.4)" }} />
-          <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.4)" }}>{profileData.location}</Typography>
+          <PlaceOutlinedIcon sx={{ fontSize: 16, color: "rgba(255,255,255,1)" }} />
+          <Typography variant="body2" sx={{ color: "rgba(255,255,255,1)" }}>{profileData.location}</Typography>
         </motion.div>
 
         <motion.div

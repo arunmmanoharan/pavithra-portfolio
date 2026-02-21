@@ -87,9 +87,9 @@ app.use((req, res, next) => {
   }
 
   // ALWAYS serve the app on the port specified in the environment variable PORT
-  // On Replit, port 5000 is required (other ports are firewalled).
+  // On Replit, port 3000 is required (other ports are firewalled).
   // Locally, you can set PORT in .env to avoid conflicts (e.g., macOS uses 5000 for AirPlay).
-  const port = parseInt(process.env.PORT || "5000", 10);
+  const port = parseInt(process.env.PORT || "3000", 10);
   httpServer.listen(port, "0.0.0.0", () => {
     log(`serving on port ${port}`);
   });
