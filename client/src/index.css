@@ -9,40 +9,40 @@
   --opaque-button-border-intensity: -8;
   --elevate-1: rgba(0,0,0, .03);
   --elevate-2: rgba(0,0,0, .08);
-  --background: 43 65% 95%;
-  --foreground: 196 42% 14%;
-  --border: 40 26% 84%;
-  --card: 42 58% 94%;
-  --card-foreground: 196 42% 14%;
-  --card-border: 40 24% 86%;
-  --sidebar: 41 52% 92%;
-  --sidebar-foreground: 196 42% 14%;
-  --sidebar-border: 40 24% 84%;
-  --sidebar-primary: 192 68% 36%;
+  --background: 150 15% 97%;
+  --foreground: 160 30% 8%;
+  --border: 150 10% 87%;
+  --card: 150 12% 95%;
+  --card-foreground: 160 30% 8%;
+  --card-border: 150 10% 89%;
+  --sidebar: 150 12% 93%;
+  --sidebar-foreground: 160 30% 8%;
+  --sidebar-border: 150 10% 87%;
+  --sidebar-primary: 152 55% 33%;
   --sidebar-primary-foreground: 0 0% 98%;
-  --sidebar-accent: 38 52% 86%;
-  --sidebar-accent-foreground: 196 42% 14%;
-  --sidebar-ring: 192 68% 36%;
-  --popover: 43 48% 92%;
-  --popover-foreground: 196 42% 14%;
-  --popover-border: 40 24% 82%;
-  --primary: 192 68% 36%;
+  --sidebar-accent: 150 12% 89%;
+  --sidebar-accent-foreground: 160 30% 8%;
+  --sidebar-ring: 152 55% 33%;
+  --popover: 150 10% 93%;
+  --popover-foreground: 160 30% 8%;
+  --popover-border: 150 10% 85%;
+  --primary: 152 55% 33%;
   --primary-foreground: 0 0% 98%;
-  --secondary: 196 48% 88%;
-  --secondary-foreground: 196 42% 14%;
-  --muted: 38 35% 88%;
-  --muted-foreground: 196 18% 38%;
-  --accent: 34 78% 62%;
-  --accent-foreground: 196 42% 14%;
+  --secondary: 150 10% 87%;
+  --secondary-foreground: 160 30% 8%;
+  --muted: 150 8% 89%;
+  --muted-foreground: 160 12% 42%;
+  --accent: 38 70% 50%;
+  --accent-foreground: 160 30% 8%;
   --destructive: 0 84% 42%;
   --destructive-foreground: 0 0% 98%;
-  --input: 196 22% 70%;
-  --ring: 192 68% 36%;
-  --chart-1: 192 68% 36%;
-  --chart-2: 200 63% 47%;
-  --chart-3: 34 78% 58%;
-  --chart-4: 176 55% 40%;
-  --chart-5: 218 45% 52%;
+  --input: 150 10% 72%;
+  --ring: 152 55% 33%;
+  --chart-1: 152 55% 30%;
+  --chart-2: 200 55% 42%;
+  --chart-3: 38 70% 48%;
+  --chart-4: 170 45% 36%;
+  --chart-5: 220 45% 50%;
   --font-sans: 'Space Grotesk', sans-serif;
   --font-serif: 'Playfair Display', serif;
   --font-mono: 'JetBrains Mono', monospace;
@@ -261,7 +261,7 @@
 }
 
 .gradient-text {
-  background: linear-gradient(135deg, hsl(191, 70%, 36%), hsl(200, 70%, 46%), hsl(37, 80%, 58%));
+  background: linear-gradient(135deg, hsl(152, 55%, 33%), hsl(200, 55%, 42%), hsl(152, 55%, 33%));
   background-size: 200% 200%;
   animation: gradient-x 4s ease infinite;
   -webkit-background-clip: text;
@@ -270,7 +270,7 @@
 }
 
 .gradient-text-hero {
-  background: linear-gradient(135deg, #ffffff 0%, #d5f3ff 42%, #fff4da 72%, #ffffff 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #d4e8d0 40%, #a8d5a0 60%, #ffffff 100%);
   background-size: 200% 200%;
   animation: gradient-x 5s ease infinite;
   -webkit-background-clip: text;
