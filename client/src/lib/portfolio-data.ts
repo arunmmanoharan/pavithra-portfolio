@@ -153,6 +153,14 @@ export const profileData = {
   publications: [
     {
       title:
+        "How Can AI Address Climate Justice When Women's Voices Are Silenced?",
+      authors: "Selvakumar, P. P., Tedesco, M.",
+      journal: "State of the Planet (Columbia Climate School)",
+      year: 2026,
+      url: "https://news.climate.columbia.edu/2026/02/27/how-can-ai-address-climate-justice-when-womens-voices-are-silenced/",
+    },
+    {
+      title:
         "Exploring risk-scapes in Oklahoma: Institutional Trust, Environmental Justice, Climate Change, and Infrastructure",
       authors: "Sibley, M., Peach, K., León-Corwin, M., Selvakumar, P. P., et al.",
       journal: "Safer Communities",

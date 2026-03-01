@@ -11,7 +11,17 @@ import AutoStoriesOutlinedIcon from "@mui/icons-material/AutoStoriesOutlined";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import { useState } from "react";
 
-function PublicationCard({ pub, index, inView }: { pub: typeof profileData.publications[0]; index: number; inView: boolean }) {
+type Publication = (typeof profileData.publications)[number];
+
+function PublicationCard({
+  pub,
+  index,
+  inView,
+}: {
+  pub: Publication;
+  index: number;
+  inView: boolean;
+}) {
   const [hovered, setHovered] = useState(false);
 
   return (
@@ -33,33 +43,58 @@ function PublicationCard({ pub, index, inView }: { pub: typeof profileData.publi
             </Box>
           </motion.div>
           <Box sx={{ flex: 1, minWidth: 0 }}>
-            <Typography
-              variant="subtitle1"
-              data-testid={`text-pub-title-${index}`}
-              sx={{
-                fontWeight: 600,
-                lineHeight: 1.4,
-                letterSpacing: "-0.01em",
-                mb: 0.75,
-                transition: "color 0.3s ease",
-                color: hovered ? "primary.main" : "text.primary",
-              }}
-            >
-              {pub.title}
-            </Typography>
+            {pub.url ? (
+              <Typography
+                component="a"
+                href={pub.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                variant="subtitle1"
+                data-testid={`text-pub-title-${index}`}
+                sx={{
+                  display: "inline-block",
+                  textDecoration: "none",
+                  fontWeight: 600,
+                  lineHeight: 1.4,
+                  letterSpacing: "-0.01em",
+                  mb: 0.75,
+                  transition: "color 0.3s ease",
+                  color: hovered ? "primary.main" : "text.primary",
+                }}
+              >
+                {pub.title}
+              </Typography>
+            ) : (
+              <Typography
+                variant="subtitle1"
+                data-testid={`text-pub-title-${index}`}
+                sx={{
+                  fontWeight: 600,
+                  lineHeight: 1.4,
+                  letterSpacing: "-0.01em",
+                  mb: 0.75,
+                  transition: "color 0.3s ease",
+                  color: hovered ? "primary.main" : "text.primary",
+                }}
+              >
+                {pub.title}
+              </Typography>
+            )}
             <Typography variant="body2" sx={{ color: "text.secondary", mb: 1.25 }}>
               {pub.authors}
             </Typography>
             <Box sx={{ display: "flex", alignItems: "center", gap: 1, flexWrap: "wrap" }}>
               <Chip label={pub.journal} size="small" variant="outlined" sx={{ fontSize: "0.75rem" }} />
               <Chip label={pub.year} size="small" variant="outlined" sx={{ fontSize: "0.75rem" }} />
-              <motion.div
-                initial={false}
-                animate={{ opacity: hovered ? 1 : 0, x: hovered ? 0 : -8 }}
-                transition={{ duration: 0.2 }}
-              >
-                <OpenInNewIcon sx={{ fontSize: 14, color: "text.secondary" }} />
-              </motion.div>
+              {pub.url ? (
+                <motion.div
+                  initial={false}
+                  animate={{ opacity: hovered ? 1 : 0, x: hovered ? 0 : -8 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <OpenInNewIcon sx={{ fontSize: 14, color: "text.secondary" }} />
+                </motion.div>
+              ) : null}
             </Box>
           </Box>
         </CardContent>
