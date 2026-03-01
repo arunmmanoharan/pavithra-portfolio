@@ -13,7 +13,7 @@ import PlaceOutlinedIcon from "@mui/icons-material/PlaceOutlined";
 import SendIcon from "@mui/icons-material/Send";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import { SiLinkedin } from "react-icons/si";
+import { SiGooglescholar, SiLinkedin } from "react-icons/si";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useState } from "react";
 import { useSnackbar } from "@/hooks/use-snackbar";
@@ -49,6 +49,7 @@ export function ContactSection() {
     { icon: PhoneOutlinedIcon, label: "Phone", value: profileData.phone, href: `tel:${profileData.phone}` },
     { icon: PlaceOutlinedIcon, label: "Location", value: profileData.location },
     { icon: SiLinkedin, label: "LinkedIn", value: "Connect on LinkedIn", href: profileData.linkedin },
+    { icon: SiGooglescholar, label: "Google Scholar", value: "View Google Scholar", href: profileData.googleScholar },
   ];
 
   return (

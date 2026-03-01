@@ -9,7 +9,7 @@ import DownloadIcon from "@mui/icons-material/Download";
 import PlaceOutlinedIcon from "@mui/icons-material/PlaceOutlined";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import SpaOutlinedIcon from "@mui/icons-material/SpaOutlined";
-import { SiLinkedin } from "react-icons/si";
+import { SiGooglescholar, SiLinkedin } from "react-icons/si";
 import { profileData } from "@/lib/portfolio-data";
 import { useState, useEffect } from "react";
 import profilePhoto from "@assets/pavithra_selvakumar_(1)_1771530074450.jpg";
@@ -203,6 +203,24 @@ export function HeroSection() {
             }}
           >
             LinkedIn
+          </Button>
+          <Button
+            variant="outlined"
+            startIcon={<SiGooglescholar />}
+            href={profileData.googleScholar}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-testid="button-hero-google-scholar"
+            sx={{
+              color: "white",
+              borderColor: "rgba(255,255,255,0.2)",
+              backdropFilter: "blur(12px)",
+              bgcolor: "rgba(255,255,255,0.05)",
+              px: 3,
+              "&:hover": { borderColor: "rgba(255,255,255,0.4)", bgcolor: "rgba(255,255,255,0.1)" },
+            }}
+          >
+            Google Scholar
           </Button>
         </motion.div>
 

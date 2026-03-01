@@ -7,6 +7,8 @@ export const profileData = {
   email: "pavithra.s@columbia.edu",
   phone: "+1 919-638-7355",
   linkedin: "https://www.linkedin.com/in/pavithra-priyadarshini",
+  googleScholar:
+    "https://scholar.google.com/citations?user=wn9zdoUAAAAJ&hl=en",
   summary:
     "I get innate joy in learning about the balance between economic, environmental and social needs allowing prosperity for present and future generations. My research focuses on equitable coastal adaptation, AI and climate justice, and institutional sustainability in higher education.",
   experience: [
