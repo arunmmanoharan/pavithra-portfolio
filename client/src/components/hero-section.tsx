@@ -60,16 +60,27 @@ export function HeroSection() {
         sx={{
           position: "absolute",
           inset: 0,
-          backgroundImage: "url('/images/hero-bg.png')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
+          background:
+            "linear-gradient(180deg, #92dbff 0%, #8fd6fb 24%, #63c0e8 48%, #42add6 60%, #f0d49f 82%, #f8ecd2 100%)",
         }}
       />
       <Box
         sx={{
           position: "absolute",
           inset: 0,
-          background: "linear-gradient(to bottom, rgba(0,0,0,0.75), rgba(0,0,0,0.60), hsl(150,15%,97%))",
+          background:
+            "radial-gradient(circle at 18% 16%, rgba(255, 243, 201, 0.4), transparent 35%), radial-gradient(circle at 82% 30%, rgba(189, 238, 255, 0.35), transparent 28%), linear-gradient(to bottom, rgba(0,0,0,0.35), rgba(0,0,0,0.22), rgba(248,236,210,0.4))",
+        }}
+      />
+      <Box
+        sx={{
+          position: "absolute",
+          left: 0,
+          right: 0,
+          bottom: 0,
+          height: { xs: 110, sm: 140 },
+          background:
+            "linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(242, 223, 182, 0.5) 36%, rgba(242, 223, 182, 0.95) 100%)",
         }}
       />
 
