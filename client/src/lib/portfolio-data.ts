@@ -5,7 +5,6 @@ export const profileData = {
   tagline: "Postdoctoral Research Scientist at Columbia Climate School",
   location: "New York, New York, United States",
   email: "pavithra.s@columbia.edu",
-  phone: "+1 919-638-7355",
   linkedin: "https://www.linkedin.com/in/pavithra-priyadarshini",
   googleScholar:
     "https://scholar.google.com/citations?user=wn9zdoUAAAAJ&hl=en",

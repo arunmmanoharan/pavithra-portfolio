@@ -8,7 +8,6 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
-import PhoneOutlinedIcon from "@mui/icons-material/PhoneOutlined";
 import PlaceOutlinedIcon from "@mui/icons-material/PlaceOutlined";
 import SendIcon from "@mui/icons-material/Send";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
@@ -46,7 +45,6 @@ export function ContactSection() {
 
   const contactInfo = [
     { icon: MailOutlineIcon, label: "Email", value: profileData.email, href: `mailto:${profileData.email}` },
-    { icon: PhoneOutlinedIcon, label: "Phone", value: profileData.phone, href: `tel:${profileData.phone}` },
     { icon: PlaceOutlinedIcon, label: "Location", value: profileData.location },
     { icon: SiLinkedin, label: "LinkedIn", value: "Connect on LinkedIn", href: profileData.linkedin },
     { icon: SiGooglescholar, label: "Google Scholar", value: "View Google Scholar", href: profileData.googleScholar },
