@@ -10,7 +10,7 @@ import ListItemText from "@mui/material/ListItemText";
 import Box from "@mui/material/Box";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion, useScroll } from "framer-motion";
 
 const navLinks = [
   { label: "About", href: "#about" },
@@ -25,36 +25,34 @@ export function Navigation() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("");
+  const { scrollYProgress } = useScroll();
+  const reducedMotion = useReducedMotion();
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
+    let frame = 0;
+    const sections = navLinks.map((link) => document.querySelector(link.href));
+    const update = () => {
+      frame = 0;
+      setScrolled(window.scrollY > 50);
+      // A reading line works even when a section is taller than the viewport.
+      const readingLine = Math.min(window.innerHeight * 0.3, 200);
+      let current = "";
+      for (const section of sections) {
+        if (section && section.getBoundingClientRect().top <= readingLine) current = section.id;
+      }
+      if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2) current = "contact";
+      setActiveSection(current);
+    };
+    const schedule = () => { if (!frame) frame = requestAnimationFrame(update); };
+    update();
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
+    };
   }, []);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            setActiveSection(entry.target.id);
-          }
-        }
-      },
-      { threshold: 0.3, rootMargin: "-80px 0px 0px 0px" }
-    );
-    for (const link of navLinks) {
-      const el = document.querySelector(link.href);
-      if (el) observer.observe(el);
-    }
-    return () => observer.disconnect();
-  }, []);
-
-  const scrollTo = (href: string) => {
-    setMobileOpen(false);
-    const el = document.querySelector(href);
-    if (el) el.scrollIntoView({ behavior: "smooth" });
-  };
 
   return (
     <>
@@ -67,12 +65,13 @@ export function Navigation() {
           backdropFilter: scrolled ? "blur(24px)" : "none",
           borderBottom: scrolled ? "1px solid" : "none",
           borderColor: "divider",
-          transition: "all 0.5s ease",
+          transition: "background-color 0.3s ease, border-color 0.3s ease",
         }}
       >
         <Toolbar sx={{ maxWidth: 1152, mx: "auto", width: "100%", px: { xs: 2, sm: 3, lg: 4 } }}>
           <Button
-            onClick={() => scrollTo("#hero")}
+            href="#hero"
+            aria-label="Back to top"
             data-testid="link-home"
             sx={{
               fontFamily: "'Playfair Display', serif",
@@ -92,10 +91,11 @@ export function Navigation() {
                 <Box key={link.href} sx={{ position: "relative" }}>
                   <Button
                     size="small"
-                    onClick={() => scrollTo(link.href)}
+                    href={link.href}
+                    aria-current={isActive ? "location" : undefined}
                     data-testid={`link-${link.label.toLowerCase()}`}
                     sx={{
-                      color: isActive ? "primary.main" : "text.secondary",
+                      color: scrolled ? (isActive ? "primary.main" : "text.secondary") : "white",
                       fontSize: "0.875rem",
                       fontWeight: 500,
                       px: 1.5,
@@ -125,12 +125,21 @@ export function Navigation() {
 
           <IconButton
             onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label={mobileOpen ? "Close navigation" : "Open navigation"}
+            aria-expanded={mobileOpen}
             data-testid="button-mobile-menu"
             sx={{ display: { md: "none" }, color: scrolled ? "text.primary" : "white" }}
           >
             {mobileOpen ? <CloseIcon /> : <MenuIcon />}
           </IconButton>
         </Toolbar>
+        {!reducedMotion && (
+          <motion.div
+            aria-hidden="true"
+            data-testid="reading-progress"
+            style={{ height: 2, position: "absolute", bottom: -1, left: 0, right: 0, background: "hsl(152, 55%, 33%)", transformOrigin: "left", scaleX: scrollYProgress }}
+          />
+        )}
       </AppBar>
 
       <Drawer
@@ -150,7 +159,10 @@ export function Navigation() {
           {navLinks.map((link) => (
             <ListItemButton
               key={link.href}
-              onClick={() => scrollTo(link.href)}
+              component="a"
+              href={link.href}
+              onClick={() => setMobileOpen(false)}
+              aria-current={activeSection === link.href.slice(1) ? "location" : undefined}
               data-testid={`link-mobile-${link.label.toLowerCase()}`}
               sx={{
                 color: activeSection === link.href.slice(1) ? "primary.main" : "text.secondary",

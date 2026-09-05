@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from "react";
+import { useReducedMotion } from "framer-motion";
 
-export function useInView(threshold = 0.15) {
+export function useInView() {
   const ref = useRef<HTMLDivElement>(null);
   const [inView, setInView] = useState(false);
+  const reducedMotion = useReducedMotion();
 
   useEffect(() => {
     const el = ref.current;
@@ -14,11 +16,12 @@ export function useInView(threshold = 0.15) {
           observer.unobserve(el);
         }
       },
-      { threshold }
+      // Tall sections may never fit a percentage threshold on a phone.
+      { threshold: 0, rootMargin: "0px 0px -48px 0px" }
     );
     observer.observe(el);
     return () => observer.disconnect();
-  }, [threshold]);
+  }, []);
 
-  return { ref, inView };
+  return { ref, inView: inView || !!reducedMotion };
 }

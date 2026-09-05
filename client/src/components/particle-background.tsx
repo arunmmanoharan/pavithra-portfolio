@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { useReducedMotion } from "framer-motion";
 
 interface Particle {
   x: number;
@@ -12,12 +13,14 @@ interface Particle {
 }
 
 export function ParticleBackground() {
+  const reducedMotion = useReducedMotion();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const particlesRef = useRef<Particle[]>([]);
   const animationRef = useRef<number>(0);
   const mouseRef = useRef({ x: -1000, y: -1000 });
 
   useEffect(() => {
+    if (reducedMotion) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
@@ -113,7 +116,7 @@ export function ParticleBackground() {
       window.removeEventListener("mousemove", onMouseMove);
       cancelAnimationFrame(animationRef.current);
     };
-  }, []);
+  }, [reducedMotion]);
 
   return (
     <canvas

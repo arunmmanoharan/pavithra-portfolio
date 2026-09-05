@@ -11,6 +11,7 @@ import { Footer } from "@/components/footer";
 import { useEffect } from "react";
 import { profileData } from "@/lib/portfolio-data";
 import Box from "@mui/material/Box";
+import { MotionConfig } from "framer-motion";
 
 export default function Portfolio() {
   useEffect(() => {
@@ -30,7 +31,8 @@ export default function Portfolio() {
   }, []);
 
   return (
-    <Box sx={{ minHeight: "100vh", bgcolor: "background.default", color: "text.primary", position: "relative", overflowX: "hidden" }}>
+    <MotionConfig reducedMotion="user">
+    <Box className="portfolio-motion" sx={{ minHeight: "100vh", bgcolor: "background.default", color: "text.primary", position: "relative", overflowX: "clip" }}>
       <ParticleBackground />
 
       <Box className="blob animate-float-slow animate-morph" sx={{ width: 500, height: 500, bgcolor: "primary.main", opacity: 0.12, top: "20%", left: -200 }} />
@@ -50,5 +52,6 @@ export default function Portfolio() {
       </Box>
       <Footer />
     </Box>
+    </MotionConfig>
   );
 }

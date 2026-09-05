@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
@@ -7,46 +7,27 @@ import Chip from "@mui/material/Chip";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import DownloadIcon from "@mui/icons-material/Download";
 import PlaceOutlinedIcon from "@mui/icons-material/PlaceOutlined";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import SpaOutlinedIcon from "@mui/icons-material/SpaOutlined";
 import { SiGooglescholar, SiLinkedin } from "react-icons/si";
 import { profileData } from "@/lib/portfolio-data";
-import { useState, useEffect } from "react";
+import { useRef } from "react";
 import profilePhoto from "@assets/pavithra_selvakumar_(1)_1771530074450.jpg";
 
-function TypeWriter({ text, delay = 0 }: { text: string; delay?: number }) {
-  const [displayed, setDisplayed] = useState("");
-  const [started, setStarted] = useState(false);
-
-  useEffect(() => {
-    const t = setTimeout(() => setStarted(true), delay);
-    return () => clearTimeout(t);
-  }, [delay]);
-
-  useEffect(() => {
-    if (!started || displayed.length >= text.length) return;
-    const t = setTimeout(() => setDisplayed(text.slice(0, displayed.length + 1)), 40);
-    return () => clearTimeout(t);
-  }, [displayed, started, text]);
-
-  return (
-    <span>
-      {displayed}
-      {displayed.length < text.length && (
-        <span className="animate-typing-cursor" style={{ color: "hsl(152, 55%, 42%)" }}>|</span>
-      )}
-    </span>
-  );
-}
-
 export function HeroSection() {
-  const scrollToAbout = () => document.querySelector("#about")?.scrollIntoView({ behavior: "smooth" });
-  const scrollToContact = () => document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" });
+  const heroRef = useRef<HTMLElement>(null);
+  const reducedMotion = useReducedMotion();
+  const desktop = useMediaQuery("(min-width: 900px)");
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
+  const landscapeY = useTransform(scrollYProgress, [0, 1], [0, desktop ? 100 : 32]);
+  const landscapeScale = useTransform(scrollYProgress, [0, 1], [1.02, 1.08]);
+  const portraitY = useTransform(scrollYProgress, [0, 1], [0, desktop ? -28 : -10]);
 
   return (
     <Box
       component="section"
       id="hero"
+      ref={heroRef}
       sx={{
         position: "relative",
         minHeight: "100vh",
@@ -56,11 +37,15 @@ export function HeroSection() {
         overflow: "hidden",
       }}
     >
-      <Box
-        sx={{
+      <motion.div
+        aria-hidden="true"
+        data-testid="hero-landscape"
+        style={{
           position: "absolute",
           inset: 0,
-          backgroundImage: "url('/images/hero-bg.png')",
+          y: reducedMotion ? 0 : landscapeY,
+          scale: reducedMotion ? 1 : landscapeScale,
+          backgroundImage: `url('${import.meta.env.BASE_URL}images/hero-bg.png')`,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
@@ -86,7 +71,7 @@ export function HeroSection() {
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
           style={{ marginBottom: 32 }}
         >
-          <Box sx={{ position: "relative", display: "inline-block" }}>
+          <motion.div data-testid="hero-portrait" style={{ position: "relative", display: "inline-block", y: reducedMotion ? 0 : portraitY }}>
             <Avatar
               src={profilePhoto}
               alt="Pavithra Priyadarshini Selvakumar"
@@ -94,7 +79,7 @@ export function HeroSection() {
             />
             <Box className="animate-pulse-glow" sx={{ position: "absolute", inset: -12, borderRadius: "50%", border: "1px solid", borderColor: "primary.main", opacity: 0.3 }} />
             <Box className="animate-pulse-glow" sx={{ position: "absolute", inset: -24, borderRadius: "50%", border: "1px solid", borderColor: "primary.main", opacity: 0.15, animationDelay: "-1.5s" }} />
-          </Box>
+          </motion.div>
         </motion.div>
 
         <motion.div
@@ -140,7 +125,7 @@ export function HeroSection() {
             data-testid="text-hero-headline"
             sx={{ fontSize: { xs: "1.1rem", sm: "1.25rem", md: "1.5rem" }, color: "rgba(255,255,255,0.7)", fontWeight: 300, maxWidth: 640, mx: "auto", lineHeight: 1.6, mb: 2, minHeight: { xs: 32, sm: 36 } }}
           >
-            <TypeWriter text={profileData.tagline} delay={1200} />
+            {profileData.tagline}
           </Typography>
         </motion.div>
 
@@ -163,7 +148,7 @@ export function HeroSection() {
           <Button
             variant="contained"
             startIcon={<MailOutlineIcon />}
-            onClick={scrollToContact}
+            href="#contact"
             data-testid="button-hero-contact"
             sx={{ px: 3 }}
           >
@@ -172,7 +157,7 @@ export function HeroSection() {
           <Button
             variant="outlined"
             startIcon={<DownloadIcon />}
-            href="/PaviSelvakumar_Resume.pdf"
+            href={`${import.meta.env.BASE_URL}PaviSelvakumar_Resume.pdf`}
             download
             data-testid="button-hero-download-cv"
             sx={{
@@ -224,23 +209,6 @@ export function HeroSection() {
           </Button>
         </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.8 }}
-          style={{ position: "absolute", bottom: 40, left: "50%", transform: "translateX(-50%)" }}
-        >
-          <Box
-            component="button"
-            onClick={scrollToAbout}
-            data-testid="button-scroll-down"
-            sx={{ background: "none", border: "none", cursor: "pointer", color: "rgba(255,255,255,0.3)", p: 0 }}
-          >
-            <motion.div animate={{ y: [0, 8, 0] }} transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}>
-              <KeyboardArrowDownIcon sx={{ fontSize: 24 }} />
-            </motion.div>
-          </Box>
-        </motion.div>
       </Box>
     </Box>
   );

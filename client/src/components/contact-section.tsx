@@ -6,45 +6,16 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import PlaceOutlinedIcon from "@mui/icons-material/PlaceOutlined";
-import SendIcon from "@mui/icons-material/Send";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { SiGooglescholar, SiLinkedin } from "react-icons/si";
-import CircularProgress from "@mui/material/CircularProgress";
-import { useState } from "react";
-import { useSnackbar } from "@/hooks/use-snackbar";
 
 export function ContactSection() {
   const { ref, inView } = useInView();
-  const { showSnackbar } = useSnackbar();
-  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
-  const [sending, setSending] = useState(false);
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setSending(true);
-    try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Failed to send");
-      showSnackbar({ title: "Message sent!", description: "Thanks for reaching out. I'll get back to you soon." });
-      setFormData({ name: "", email: "", message: "" });
-    } catch (err) {
-      showSnackbar({ title: "Failed to send", description: "Something went wrong. Please try again or email me directly." });
-    } finally {
-      setSending(false);
-    }
-  };
 
   const contactInfo = [
-    { icon: MailOutlineIcon, label: "Email", value: profileData.email, href: `mailto:${profileData.email}` },
     { icon: PlaceOutlinedIcon, label: "Location", value: profileData.location },
     { icon: SiLinkedin, label: "LinkedIn", value: "Connect on LinkedIn", href: profileData.linkedin },
     { icon: SiGooglescholar, label: "Google Scholar", value: "View Google Scholar", href: profileData.googleScholar },
@@ -106,7 +77,7 @@ export function ContactSection() {
                             href={item.href}
                             target={item.href.startsWith("http") ? "_blank" : undefined}
                             rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                            data-testid={`link-contact-${item.label.toLowerCase()}`}
+                            data-testid={`link-contact-${item.label.toLowerCase().replace(/\s+/g, "-")}`}
                             sx={{ display: "block", fontSize: "0.875rem", fontWeight: 500, color: "text.primary", textDecoration: "none", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}
                           >
                             {item.value}
@@ -126,54 +97,42 @@ export function ContactSection() {
           </motion.div>
 
           <motion.div initial={{ opacity: 0, x: 30 }} animate={inView ? { opacity: 1, x: 0 } : {}} transition={{ duration: 0.6, delay: 0.3 }}>
-            <Card className="glass-card glass-card-glow" sx={{ boxShadow: "none" }}>
-              <CardContent sx={{ p: 3 }}>
-                <form onSubmit={handleSubmit}>
-                  <Box sx={{ display: "flex", flexDirection: "column", gap: 2.5 }}>
-                    <TextField
-                      label="Name"
-                      name="name"
-                      required
-                      fullWidth
-                      size="small"
-                      value={formData.name}
-                      onChange={(e) => setFormData((d) => ({ ...d, name: e.target.value }))}
-                      inputProps={{ "data-testid": "input-contact-name" }}
-                    />
-                    <TextField
-                      label="Email"
-                      name="email"
-                      type="email"
-                      required
-                      fullWidth
-                      size="small"
-                      value={formData.email}
-                      onChange={(e) => setFormData((d) => ({ ...d, email: e.target.value }))}
-                      inputProps={{ "data-testid": "input-contact-email" }}
-                    />
-                    <TextField
-                      label="Message"
-                      name="message"
-                      required
-                      fullWidth
-                      multiline
-                      rows={4}
-                      value={formData.message}
-                      onChange={(e) => setFormData((d) => ({ ...d, message: e.target.value }))}
-                      inputProps={{ "data-testid": "input-contact-message" }}
-                    />
-                    <Button
-                      type="submit"
-                      variant="contained"
-                      fullWidth
-                      disabled={sending}
-                      startIcon={sending ? <CircularProgress size={16} color="inherit" /> : <SendIcon />}
-                      data-testid="button-contact-submit"
-                    >
-                      {sending ? "Sending..." : "Send Message"}
-                    </Button>
-                  </Box>
-                </form>
+            <Card className="glass-card glass-card-glow" sx={{ boxShadow: "none", height: "100%" }}>
+              <CardContent sx={{ p: { xs: 3, sm: 4 }, display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 2, height: "100%", justifyContent: "center" }}>
+                <Box sx={{ width: 48, height: 48, borderRadius: 1, bgcolor: "hsla(152, 55%, 33%, 0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <MailOutlineIcon sx={{ color: "primary.main" }} />
+                </Box>
+                <Typography variant="h3" sx={{ fontSize: "1.25rem", fontWeight: 700, letterSpacing: "-0.01em" }}>
+                  Email me directly
+                </Typography>
+                <Typography variant="body2" sx={{ color: "text.secondary", lineHeight: 1.7 }}>
+                  For collaborations, research opportunities, speaking, or anything else,
+                  email is the best way to reach me.
+                </Typography>
+                <Typography
+                  component="a"
+                  href={`mailto:${profileData.email}`}
+                  data-testid="link-contact-email"
+                  sx={{
+                    fontSize: { xs: "1rem", sm: "1.125rem" },
+                    fontWeight: 600,
+                    color: "primary.main",
+                    textDecoration: "none",
+                    wordBreak: "break-all",
+                    "&:hover": { textDecoration: "underline" },
+                  }}
+                >
+                  {profileData.email}
+                </Typography>
+                <Button
+                  variant="contained"
+                  href={`mailto:${profileData.email}`}
+                  startIcon={<MailOutlineIcon />}
+                  data-testid="button-contact-email"
+                  sx={{ mt: 1, px: 3 }}
+                >
+                  Email Me
+                </Button>
               </CardContent>
             </Card>
           </motion.div>

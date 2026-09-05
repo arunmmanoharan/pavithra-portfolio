@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { useInView } from "@/hooks/use-in-view";
 import { profileData } from "@/lib/portfolio-data";
 import Box from "@mui/material/Box";
@@ -16,19 +16,19 @@ type Publication = (typeof profileData.publications)[number];
 function PublicationCard({
   pub,
   index,
-  inView,
 }: {
   pub: Publication;
   index: number;
-  inView: boolean;
 }) {
   const [hovered, setHovered] = useState(false);
+  const reducedMotion = useReducedMotion();
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 25 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.5, delay: 0.12 * index, ease: [0.16, 1, 0.3, 1] }}
+      initial={reducedMotion ? false : { opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: "some", margin: "0px 0px -40px 0px" }}
+      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
@@ -123,13 +123,13 @@ export function PublicationsSection() {
 
         <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
           {profileData.publications.map((pub, i) => (
-            <PublicationCard key={i} pub={pub} index={i} inView={inView} />
+            <PublicationCard key={pub.title} pub={pub} index={i} />
           ))}
         </Box>
 
         <motion.div initial={{ opacity: 0 }} animate={inView ? { opacity: 1 } : {}} transition={{ delay: 0.6 }}>
           <Typography variant="body2" sx={{ color: "text.secondary", mt: 4, textAlign: "center" }}>
-            Plus 4 additional papers submitted or in progress
+            Plus a book chapter and 8 additional manuscripts under review or in preparation
           </Typography>
         </motion.div>
       </Box>

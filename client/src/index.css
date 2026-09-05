@@ -2,6 +2,56 @@
 @tailwind components;
 @tailwind utilities;
 
+.portfolio-motion section[id] {
+  scroll-margin-top: 88px;
+}
+
+.portfolio-motion #hero .MuiButton-outlined {
+  background-color: rgba(0, 0, 0, 0.48);
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+.portfolio-motion #hero .MuiButton-outlined:hover {
+  background-color: rgba(0, 0, 0, 0.62);
+}
+
+.portfolio-motion a:focus-visible,
+.portfolio-motion button:focus-visible {
+  outline: 2px solid hsl(152, 55%, 33%);
+  outline-offset: 4px;
+}
+
+@media (min-width: 1200px) and (prefers-reduced-motion: no-preference) {
+  .career-heading {
+    position: sticky;
+    top: 112px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+
+  .portfolio-motion *,
+  .portfolio-motion *::before,
+  .portfolio-motion *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  /* Existing entrance animations must never hide content in motion-off mode. */
+  .portfolio-motion main [style*="opacity"] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .portfolio-motion canvas,
+  .portfolio-motion .blob {
+    display: none;
+  }
+}
+
 /* LIGHT MODE */
 :root {
   --button-outline: rgba(0,0,0, .10);

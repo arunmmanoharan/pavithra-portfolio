@@ -1,4 +1,5 @@
-import { motion } from "framer-motion";
+import { motion, useReducedMotion, useScroll } from "framer-motion";
+import { useRef } from "react";
 import { useInView } from "@/hooks/use-in-view";
 import { profileData } from "@/lib/portfolio-data";
 import Box from "@mui/material/Box";
@@ -13,11 +14,14 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
 export function ExperienceSection() {
   const { ref, inView } = useInView();
+  const trailRef = useRef<HTMLDivElement>(null);
+  const reducedMotion = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: trailRef, offset: ["start 0.65", "end 0.65"] });
 
   return (
     <Box component="section" id="experience" ref={ref} sx={{ py: 14 }}>
-      <Box sx={{ maxWidth: 1152, mx: "auto", px: { xs: 2, sm: 3, lg: 4 } }}>
-        <motion.div initial={{ opacity: 0, y: 40 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7 }}>
+      <Box sx={{ maxWidth: 1152, mx: "auto", px: { xs: 2, sm: 3, lg: 4 }, display: { lg: "grid" }, gridTemplateColumns: "240px minmax(0, 1fr)", alignItems: "start", gap: 4 }}>
+        <motion.div className="career-heading" initial={{ opacity: 0, y: 40 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7 }}>
           <Box sx={{ display: "flex", alignItems: "center", gap: 1.5, mb: 1.5 }}>
             <Box sx={{ width: 40, height: 40, borderRadius: 1, bgcolor: "hsla(152, 55%, 33%, 0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
               <WorkOutlineIcon sx={{ color: "primary.main" }} />
@@ -29,27 +33,25 @@ export function ExperienceSection() {
           <Box sx={{ width: 80, height: 4, background: "linear-gradient(to right, hsl(152,55%,33%), transparent)", borderRadius: 2, ml: "52px", mb: 5 }} />
         </motion.div>
 
-        <Box sx={{ position: "relative" }}>
+        <Box ref={trailRef} sx={{ position: "relative" }}>
+          <Box aria-hidden="true" sx={{ position: "absolute", left: 20, top: 0, bottom: 0, width: 1, bgcolor: "divider" }} />
           <motion.div
-            initial={{ scaleY: 0 }}
-            animate={inView ? { scaleY: 1 } : {}}
-            transition={{ duration: 1.5, ease: "easeOut" }}
-            style={{ originY: 0, position: "absolute", left: 20, top: 0, bottom: 0, width: 1, background: "linear-gradient(to bottom, hsl(152,55%,33%,0.5), hsl(152,55%,33%,0.2), transparent)" }}
+            aria-hidden="true"
+            data-testid="career-progress"
+            style={{ scaleY: reducedMotion ? 1 : scrollYProgress, originY: 0, position: "absolute", left: 20, top: 0, bottom: 0, width: 2, background: "hsl(152, 55%, 33%)" }}
           />
 
           <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
-            {profileData.experience.map((exp, i) => (
+            {profileData.experience.map((exp) => (
               <motion.div
                 key={exp.id}
-                initial={{ opacity: 0, x: -30, y: 20 }}
-                animate={inView ? { opacity: 1, x: 0, y: 0 } : {}}
-                transition={{ duration: 0.6, delay: 0.15 * i, ease: [0.16, 1, 0.3, 1] }}
+                initial={reducedMotion ? false : { opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: "some", margin: "0px 0px -48px 0px" }}
+                transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
                 style={{ position: "relative", paddingLeft: 56 }}
               >
                 <motion.div
-                  initial={{ scale: 0 }}
-                  animate={inView ? { scale: 1 } : {}}
-                  transition={{ duration: 0.4, delay: 0.15 * i + 0.2, type: "spring" }}
                   style={{ position: "absolute", left: 12, top: 24 }}
                 >
                   <Box sx={{ width: 16, height: 16, borderRadius: "50%", bgcolor: "primary.main", border: "2px solid", borderColor: "background.default", boxShadow: "0 0 10px hsl(152,55%,33%,0.3)" }} />
@@ -84,9 +86,6 @@ export function ExperienceSection() {
                       {exp.highlights.map((h, j) => (
                         <motion.li
                           key={j}
-                          initial={{ opacity: 0, x: -10 }}
-                          animate={inView ? { opacity: 1, x: 0 } : {}}
-                          transition={{ duration: 0.4, delay: 0.15 * i + 0.3 + j * 0.05 }}
                           style={{ display: "flex", alignItems: "flex-start", gap: 10 }}
                         >
                           <ChevronRightIcon sx={{ fontSize: 14, mt: 0.25, flexShrink: 0, color: "primary.main", opacity: 0.5 }} />

@@ -1,4 +1,4 @@
-import { motion, useMotionValue, useTransform, useSpring } from "framer-motion";
+import { motion, useMotionValue, useTransform, useSpring, useReducedMotion } from "framer-motion";
 import { useInView } from "@/hooks/use-in-view";
 import { profileData } from "@/lib/portfolio-data";
 import Box from "@mui/material/Box";
@@ -15,11 +15,13 @@ import posterPhoto from "@assets/1664215874096_1771530074454.jpeg";
 import teamPhoto from "@assets/1700712310327_1771530074454.jpeg";
 
 function AnimatedCounter({ target, suffix = "", duration = 2000 }: { target: number; suffix?: string; duration?: number }) {
+  const reducedMotion = useReducedMotion();
   const [count, setCount] = useState(0);
   const [started, setStarted] = useState(false);
   const ref = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
+    if (reducedMotion) return;
     const el = ref.current;
     if (!el) return;
     const observer = new IntersectionObserver(
@@ -28,25 +30,28 @@ function AnimatedCounter({ target, suffix = "", duration = 2000 }: { target: num
     );
     observer.observe(el);
     return () => observer.disconnect();
-  }, [started]);
+  }, [started, reducedMotion]);
 
   useEffect(() => {
-    if (!started) return;
+    if (!started || reducedMotion) return;
     let startTime: number;
+    let frame: number;
     const step = (timestamp: number) => {
       if (!startTime) startTime = timestamp;
       const progress = Math.min((timestamp - startTime) / duration, 1);
       const eased = 1 - Math.pow(1 - progress, 3);
       setCount(Math.floor(eased * target));
-      if (progress < 1) requestAnimationFrame(step);
+      if (progress < 1) frame = requestAnimationFrame(step);
     };
-    requestAnimationFrame(step);
-  }, [started, target, duration]);
+    frame = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(frame);
+  }, [started, target, duration, reducedMotion]);
 
-  return <span ref={ref}>{count}{suffix}</span>;
+  return <span ref={ref}>{reducedMotion ? target : count}{suffix}</span>;
 }
 
 function TiltCard({ children }: { children: React.ReactNode }) {
+  const reducedMotion = useReducedMotion();
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const rotateX = useSpring(useTransform(y, [-0.5, 0.5], [4, -4]), { stiffness: 300, damping: 30 });
@@ -55,12 +60,13 @@ function TiltCard({ children }: { children: React.ReactNode }) {
   return (
     <motion.div
       onMouseMove={(e) => {
+        if (reducedMotion) return;
         const rect = e.currentTarget.getBoundingClientRect();
         x.set((e.clientX - rect.left) / rect.width - 0.5);
         y.set((e.clientY - rect.top) / rect.height - 0.5);
       }}
       onMouseLeave={() => { x.set(0); y.set(0); }}
-      style={{ rotateX, rotateY, transformPerspective: 800 }}
+      style={{ rotateX: reducedMotion ? 0 : rotateX, rotateY: reducedMotion ? 0 : rotateY, transformPerspective: 800 }}
     >
       {children}
     </motion.div>
@@ -71,7 +77,7 @@ export function AboutSection() {
   const { ref, inView } = useInView();
 
   const stats = [
-    { icon: AutoStoriesOutlinedIcon, label: "Publications", value: 7, suffix: "+", color: "primary.main" },
+    { icon: AutoStoriesOutlinedIcon, label: "Publications", value: 9, suffix: "+", color: "primary.main" },
     { icon: EmojiEventsOutlinedIcon, label: "Grant Funding", displayValue: profileData.totalGrantFunding, color: "warning.main" },
     { icon: PublicOutlinedIcon, label: "Countries", value: 3, suffix: "", color: "secondary.main" },
   ];
