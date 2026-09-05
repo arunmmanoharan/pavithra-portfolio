@@ -1,7 +1,9 @@
+import { useMemo } from "react";
 import { Switch, Route } from "wouter";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import theme from "./lib/theme";
+import { buildTheme } from "./lib/theme";
+import { ThemeModeProvider, useThemeMode } from "@/hooks/use-theme-mode";
 import { SnackbarProvider } from "@/hooks/use-snackbar";
 import Portfolio from "@/pages/portfolio";
 import NotFound from "@/pages/not-found";
@@ -15,7 +17,10 @@ function Router() {
   );
 }
 
-function App() {
+function ThemedApp() {
+  const { mode } = useThemeMode();
+  const theme = useMemo(() => buildTheme(mode), [mode]);
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -23,6 +28,14 @@ function App() {
         <Router />
       </SnackbarProvider>
     </ThemeProvider>
+  );
+}
+
+function App() {
+  return (
+    <ThemeModeProvider>
+      <ThemedApp />
+    </ThemeModeProvider>
   );
 }
 

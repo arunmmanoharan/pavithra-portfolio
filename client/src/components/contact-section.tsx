@@ -26,14 +26,14 @@ export function ContactSection() {
       <Box sx={{ maxWidth: 1152, mx: "auto", px: { xs: 2, sm: 3, lg: 4 } }}>
         <motion.div initial={{ opacity: 0, y: 40 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7 }}>
           <Box sx={{ display: "flex", alignItems: "center", gap: 1.5, mb: 1.5 }}>
-            <Box sx={{ width: 40, height: 40, borderRadius: 1, bgcolor: "hsla(152, 55%, 33%, 0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <Box sx={{ width: 40, height: 40, borderRadius: 1, bgcolor: "hsl(var(--primary) / 0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
               <ChatBubbleOutlineIcon sx={{ color: "primary.main" }} />
             </Box>
             <Typography variant="h2" className="gradient-text" data-testid="text-contact-title" sx={{ fontSize: { xs: "1.875rem", sm: "2.25rem" } }}>
               Get in Touch
             </Typography>
           </Box>
-          <Box sx={{ width: 80, height: 4, background: "linear-gradient(to right, hsl(152,55%,33%), transparent)", borderRadius: 2, ml: "52px", mb: 5 }} />
+          <Box sx={{ width: 80, height: 4, background: "linear-gradient(to right, hsl(var(--primary)), transparent)", borderRadius: 2, ml: "52px", mb: 5 }} />
         </motion.div>
 
         <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", lg: "1fr 1fr" }, gap: 5 }}>
@@ -57,15 +57,15 @@ export function ContactSection() {
                       boxShadow: "none",
                       transition: "all 0.3s ease",
                       "&:hover .arrow-icon": { opacity: 1 },
-                      "&:hover .icon-box": { bgcolor: "rgba(46,125,50,0.12)" },
+                      "&:hover .icon-box": { bgcolor: "hsl(var(--primary) / 0.12)" },
                     }}
                   >
                     <CardContent sx={{ display: "flex", alignItems: "center", gap: 2, py: 2, "&:last-child": { pb: 2 } }}>
                       <Box
                         className="icon-box"
-                        sx={{ width: 40, height: 40, borderRadius: 1, bgcolor: "hsla(152, 55%, 33%, 0.08)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, transition: "background-color 0.3s ease" }}
+                        sx={{ width: 40, height: 40, borderRadius: 1, bgcolor: "hsl(var(--primary) / 0.08)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, transition: "background-color 0.3s ease" }}
                       >
-                        <item.icon style={{ fontSize: 18, color: "hsl(152, 55%, 33%)" }} />
+                        <item.icon style={{ fontSize: 18, color: "hsl(var(--primary))" }} />
                       </Box>
                       <Box sx={{ flex: 1, minWidth: 0 }}>
                         <Typography variant="overline" sx={{ color: "text.secondary", fontSize: "0.65rem", lineHeight: 1.5 }}>
@@ -99,7 +99,7 @@ export function ContactSection() {
           <motion.div initial={{ opacity: 0, x: 30 }} animate={inView ? { opacity: 1, x: 0 } : {}} transition={{ duration: 0.6, delay: 0.3 }}>
             <Card className="glass-card glass-card-glow" sx={{ boxShadow: "none", height: "100%" }}>
               <CardContent sx={{ p: { xs: 3, sm: 4 }, display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 2, height: "100%", justifyContent: "center" }}>
-                <Box sx={{ width: 48, height: 48, borderRadius: 1, bgcolor: "hsla(152, 55%, 33%, 0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <Box sx={{ width: 48, height: 48, borderRadius: 1, bgcolor: "hsl(var(--primary) / 0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
                   <MailOutlineIcon sx={{ color: "primary.main" }} />
                 </Box>
                 <Typography variant="h3" sx={{ fontSize: "1.25rem", fontWeight: 700, letterSpacing: "-0.01em" }}>

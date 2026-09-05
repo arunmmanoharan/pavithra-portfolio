@@ -10,7 +10,10 @@ import ListItemText from "@mui/material/ListItemText";
 import Box from "@mui/material/Box";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
+import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
+import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import { motion, useReducedMotion, useScroll } from "framer-motion";
+import { useThemeMode } from "@/hooks/use-theme-mode";
 
 const navLinks = [
   { label: "About", href: "#about" },
@@ -27,6 +30,7 @@ export function Navigation() {
   const [activeSection, setActiveSection] = useState("");
   const { scrollYProgress } = useScroll();
   const reducedMotion = useReducedMotion();
+  const { mode, toggleMode } = useThemeMode();
 
   useEffect(() => {
     let frame = 0;
@@ -61,7 +65,7 @@ export function Navigation() {
         elevation={0}
         data-testid="nav-bar"
         sx={{
-          bgcolor: scrolled ? "rgba(245,248,245,0.7)" : "transparent",
+          bgcolor: scrolled ? "hsl(var(--background) / 0.7)" : "transparent",
           backdropFilter: scrolled ? "blur(24px)" : "none",
           borderBottom: scrolled ? "1px solid" : "none",
           borderColor: "divider",
@@ -113,7 +117,7 @@ export function Navigation() {
                         right: 12,
                         height: 2,
                         borderRadius: 1,
-                        background: "hsl(152, 55%, 33%)",
+                        background: "hsl(var(--primary))",
                       }}
                       transition={{ type: "spring", stiffness: 400, damping: 30 }}
                     />
@@ -122,6 +126,15 @@ export function Navigation() {
               );
             })}
           </Box>
+
+          <IconButton
+            onClick={toggleMode}
+            aria-label={mode === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+            data-testid="button-theme-toggle"
+            sx={{ ml: { xs: 0, md: 1 }, color: scrolled ? "text.primary" : "white" }}
+          >
+            {mode === "dark" ? <LightModeOutlinedIcon fontSize="small" /> : <DarkModeOutlinedIcon fontSize="small" />}
+          </IconButton>
 
           <IconButton
             onClick={() => setMobileOpen(!mobileOpen)}
@@ -137,7 +150,7 @@ export function Navigation() {
           <motion.div
             aria-hidden="true"
             data-testid="reading-progress"
-            style={{ height: 2, position: "absolute", bottom: -1, left: 0, right: 0, background: "hsl(152, 55%, 33%)", transformOrigin: "left", scaleX: scrollYProgress }}
+            style={{ height: 2, position: "absolute", bottom: -1, left: 0, right: 0, background: "hsl(var(--primary))", transformOrigin: "left", scaleX: scrollYProgress }}
           />
         )}
       </AppBar>

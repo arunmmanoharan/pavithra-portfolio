@@ -54,7 +54,7 @@ export function HeroSection() {
         sx={{
           position: "absolute",
           inset: 0,
-          background: "linear-gradient(to bottom, rgba(0,0,0,0.75), rgba(0,0,0,0.60), hsl(150,15%,97%))",
+          background: "linear-gradient(to bottom, rgba(0,0,0,0.75), rgba(0,0,0,0.60), hsl(var(--background)))",
         }}
       />
 

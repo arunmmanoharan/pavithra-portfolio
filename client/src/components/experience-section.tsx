@@ -23,14 +23,14 @@ export function ExperienceSection() {
       <Box sx={{ maxWidth: 1152, mx: "auto", px: { xs: 2, sm: 3, lg: 4 }, display: { lg: "grid" }, gridTemplateColumns: "240px minmax(0, 1fr)", alignItems: "start", gap: 4 }}>
         <motion.div className="career-heading" initial={{ opacity: 0, y: 40 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7 }}>
           <Box sx={{ display: "flex", alignItems: "center", gap: 1.5, mb: 1.5 }}>
-            <Box sx={{ width: 40, height: 40, borderRadius: 1, bgcolor: "hsla(152, 55%, 33%, 0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <Box sx={{ width: 40, height: 40, borderRadius: 1, bgcolor: "hsl(var(--primary) / 0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
               <WorkOutlineIcon sx={{ color: "primary.main" }} />
             </Box>
             <Typography variant="h2" className="gradient-text" data-testid="text-experience-title" sx={{ fontSize: { xs: "1.875rem", sm: "2.25rem" } }}>
               Experience
             </Typography>
           </Box>
-          <Box sx={{ width: 80, height: 4, background: "linear-gradient(to right, hsl(152,55%,33%), transparent)", borderRadius: 2, ml: "52px", mb: 5 }} />
+          <Box sx={{ width: 80, height: 4, background: "linear-gradient(to right, hsl(var(--primary)), transparent)", borderRadius: 2, ml: "52px", mb: 5 }} />
         </motion.div>
 
         <Box ref={trailRef} sx={{ position: "relative" }}>
@@ -38,7 +38,7 @@ export function ExperienceSection() {
           <motion.div
             aria-hidden="true"
             data-testid="career-progress"
-            style={{ scaleY: reducedMotion ? 1 : scrollYProgress, originY: 0, position: "absolute", left: 20, top: 0, bottom: 0, width: 2, background: "hsl(152, 55%, 33%)" }}
+            style={{ scaleY: reducedMotion ? 1 : scrollYProgress, originY: 0, position: "absolute", left: 20, top: 0, bottom: 0, width: 2, background: "hsl(var(--primary))" }}
           />
 
           <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
@@ -54,7 +54,7 @@ export function ExperienceSection() {
                 <motion.div
                   style={{ position: "absolute", left: 12, top: 24 }}
                 >
-                  <Box sx={{ width: 16, height: 16, borderRadius: "50%", bgcolor: "primary.main", border: "2px solid", borderColor: "background.default", boxShadow: "0 0 10px hsl(152,55%,33%,0.3)" }} />
+                  <Box sx={{ width: 16, height: 16, borderRadius: "50%", bgcolor: "primary.main", border: "2px solid", borderColor: "background.default", boxShadow: "0 0 10px hsl(var(--primary) / 0.3)" }} />
                 </motion.div>
 
                 <Card className="glass-card glass-card-glow" sx={{ boxShadow: "none", overflow: "visible" }}>

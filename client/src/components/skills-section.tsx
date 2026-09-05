@@ -30,14 +30,14 @@ export function SkillsSection() {
       <Box sx={{ maxWidth: 1152, mx: "auto", px: { xs: 2, sm: 3, lg: 4 } }}>
         <motion.div initial={{ opacity: 0, y: 40 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7 }}>
           <Box sx={{ display: "flex", alignItems: "center", gap: 1.5, mb: 1.5 }}>
-            <Box sx={{ width: 40, height: 40, borderRadius: 1, bgcolor: "hsla(152, 55%, 33%, 0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <Box sx={{ width: 40, height: 40, borderRadius: 1, bgcolor: "hsl(var(--primary) / 0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
               <AutoAwesomeOutlinedIcon sx={{ color: "primary.main" }} />
             </Box>
             <Typography variant="h2" className="gradient-text" data-testid="text-skills-title" sx={{ fontSize: { xs: "1.875rem", sm: "2.25rem" } }}>
               Skills & Expertise
             </Typography>
           </Box>
-          <Box sx={{ width: 80, height: 4, background: "linear-gradient(to right, hsl(152,55%,33%), transparent)", borderRadius: 2, ml: "52px", mb: 5 }} />
+          <Box sx={{ width: 80, height: 4, background: "linear-gradient(to right, hsl(var(--primary)), transparent)", borderRadius: 2, ml: "52px", mb: 5 }} />
         </motion.div>
 
         <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr", lg: "1fr 1fr 1fr" }, gap: 2.5 }}>
@@ -51,7 +51,7 @@ export function SkillsSection() {
               <Card className="glass-card glass-card-glow" sx={{ height: "100%", boxShadow: "none" }}>
                 <CardContent sx={{ p: 2.5 }}>
                   <Box sx={{ display: "flex", alignItems: "center", gap: 1.5, mb: 2 }}>
-                    <Box sx={{ width: 36, height: 36, borderRadius: 1, bgcolor: "hsla(152, 55%, 33%, 0.08)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <Box sx={{ width: 36, height: 36, borderRadius: 1, bgcolor: "hsl(var(--primary) / 0.08)", display: "flex", alignItems: "center", justifyContent: "center" }}>
                       <group.icon sx={{ fontSize: 18, color: group.color }} />
                     </Box>
                     <Typography variant="subtitle2" sx={{ flex: 1, letterSpacing: "-0.01em" }}>

@@ -55,6 +55,8 @@ export function ParticleBackground() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       const particles = particlesRef.current;
       const mouse = mouseRef.current;
+      // Brighter particles in dark mode so they stay visible on the dark canvas.
+      const rgb = document.documentElement.classList.contains("dark") ? "88, 190, 138" : "46, 125, 50";
       frame++;
 
       for (const p of particles) {
@@ -79,13 +81,13 @@ export function ParticleBackground() {
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(46, 125, 50, ${currentOpacity})`;
+        ctx.fillStyle = `rgba(${rgb}, ${currentOpacity})`;
         ctx.fill();
 
         if (p.size > 1) {
           ctx.beginPath();
           ctx.arc(p.x, p.y, p.size * 2.5, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(46, 125, 50, ${currentOpacity * 0.08})`;
+          ctx.fillStyle = `rgba(${rgb}, ${currentOpacity * 0.08})`;
           ctx.fill();
         }
       }
@@ -100,7 +102,7 @@ export function ParticleBackground() {
             ctx.beginPath();
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.strokeStyle = `rgba(46, 125, 50, ${alpha})`;
+            ctx.strokeStyle = `rgba(${rgb}, ${alpha})`;
             ctx.lineWidth = 0.5;
             ctx.stroke();
           }

@@ -38,7 +38,7 @@ function PublicationCard({
             animate={{ rotate: hovered ? 5 : 0, scale: hovered ? 1.05 : 1 }}
             transition={{ duration: 0.3 }}
           >
-            <Box sx={{ width: 40, height: 40, borderRadius: 1, bgcolor: "hsla(152, 55%, 33%, 0.08)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+            <Box sx={{ width: 40, height: 40, borderRadius: 1, bgcolor: "hsl(var(--primary) / 0.08)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
               <DescriptionOutlinedIcon sx={{ color: "primary.main" }} />
             </Box>
           </motion.div>
@@ -111,14 +111,14 @@ export function PublicationsSection() {
       <Box sx={{ maxWidth: 1152, mx: "auto", px: { xs: 2, sm: 3, lg: 4 } }}>
         <motion.div initial={{ opacity: 0, y: 40 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7 }}>
           <Box sx={{ display: "flex", alignItems: "center", gap: 1.5, mb: 1.5 }}>
-            <Box sx={{ width: 40, height: 40, borderRadius: 1, bgcolor: "hsla(152, 55%, 33%, 0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <Box sx={{ width: 40, height: 40, borderRadius: 1, bgcolor: "hsl(var(--primary) / 0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
               <AutoStoriesOutlinedIcon sx={{ color: "primary.main" }} />
             </Box>
             <Typography variant="h2" className="gradient-text" data-testid="text-publications-title" sx={{ fontSize: { xs: "1.875rem", sm: "2.25rem" } }}>
               Publications
             </Typography>
           </Box>
-          <Box sx={{ width: 80, height: 4, background: "linear-gradient(to right, hsl(152,55%,33%), transparent)", borderRadius: 2, ml: "52px", mb: 5 }} />
+          <Box sx={{ width: 80, height: 4, background: "linear-gradient(to right, hsl(var(--primary)), transparent)", borderRadius: 2, ml: "52px", mb: 5 }} />
         </motion.div>
 
         <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
