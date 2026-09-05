@@ -2,6 +2,8 @@ import { motion, useReducedMotion, useScroll } from "framer-motion";
 import { useRef } from "react";
 import { useInView } from "@/hooks/use-in-view";
 import { profileData } from "@/lib/portfolio-data";
+import { JourneyStrip } from "@/components/journey-strip";
+import { JourneyMap } from "@/components/journey-map";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -31,9 +33,13 @@ export function ExperienceSection() {
             </Typography>
           </Box>
           <Box sx={{ width: 80, height: 4, background: "linear-gradient(to right, hsl(var(--primary)), transparent)", borderRadius: 2, ml: "52px", mb: 5 }} />
+          <JourneyStrip />
+          <JourneyMap progress={scrollYProgress} reducedMotion={!!reducedMotion} />
         </motion.div>
 
         <Box ref={trailRef} sx={{ position: "relative" }}>
+          {/* Lead-in stem: the trail appears to arrive from the About story above. */}
+          <Box aria-hidden="true" sx={{ position: "absolute", left: 20, top: -72, height: 72, width: "1px", background: "linear-gradient(to top, hsl(var(--border)), transparent)" }} />
           <Box aria-hidden="true" sx={{ position: "absolute", left: 20, top: 0, bottom: 0, width: 1, bgcolor: "divider" }} />
           <motion.div
             aria-hidden="true"

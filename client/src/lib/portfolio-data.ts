@@ -229,4 +229,12 @@ export const profileData = {
     "Special Initiative Award 2016 - Tata Consultancy Services",
   ],
   totalGrantFunding: "$66,980",
+  // Chronological research journey; places and dates verified against the
+  // experience and education entries above.
+  journey: [
+    { place: "Chennai, India", years: "2011 - 2017" },
+    { place: "Norwich, UK", years: "2017 - 2018" },
+    { place: "Stillwater, Oklahoma", years: "2021 - 2025" },
+    { place: "New York City", years: "2025 - Present" },
+  ],
 };

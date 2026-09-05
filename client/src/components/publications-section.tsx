@@ -123,7 +123,16 @@ export function PublicationsSection() {
 
         <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
           {profileData.publications.map((pub, i) => (
-            <PublicationCard key={pub.title} pub={pub} index={i} />
+            <Box key={pub.title} sx={{ display: { xs: "block", md: "grid" }, gridTemplateColumns: "56px minmax(0, 1fr)", columnGap: 2, alignItems: "start" }}>
+              {/* Marginal year stamp, shown once per year group; decorative duplicate of the card's year chip. */}
+              <Typography
+                aria-hidden="true"
+                sx={{ display: { xs: "none", md: "block" }, fontFamily: "'JetBrains Mono', monospace", fontSize: "0.75rem", color: "text.secondary", opacity: 0.65, pt: 3.25, textAlign: "right" }}
+              >
+                {i === 0 || profileData.publications[i - 1].year !== pub.year ? pub.year : ""}
+              </Typography>
+              <PublicationCard pub={pub} index={i} />
+            </Box>
           ))}
         </Box>
 

@@ -19,9 +19,14 @@ export function HeroSection() {
   const reducedMotion = useReducedMotion();
   const desktop = useMediaQuery("(min-width: 900px)");
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
+  // Four depth planes, far to near: landscape drifts down, the mist band and
+  // content rise at distinct rates, the portrait and dust travel fastest.
   const landscapeY = useTransform(scrollYProgress, [0, 1], [0, desktop ? 100 : 32]);
   const landscapeScale = useTransform(scrollYProgress, [0, 1], [1.02, 1.08]);
-  const portraitY = useTransform(scrollYProgress, [0, 1], [0, desktop ? -28 : -10]);
+  const mistY = useTransform(scrollYProgress, [0, 1], [0, desktop ? -44 : -16]);
+  const contentY = useTransform(scrollYProgress, [0, 1], [0, desktop ? -12 : -4]);
+  const portraitY = useTransform(scrollYProgress, [0, 1], [0, desktop ? -40 : -12]);
+  const dotsY = useTransform(scrollYProgress, [0, 1], [0, desktop ? -70 : -24]);
 
   return (
     <Box
@@ -58,20 +63,36 @@ export function HeroSection() {
         }}
       />
 
-      <Box sx={{ position: "absolute", inset: 0, overflow: "hidden", pointerEvents: "none" }}>
+      <motion.div
+        aria-hidden="true"
+        data-testid="hero-mist"
+        style={{
+          position: "absolute",
+          left: 0,
+          right: 0,
+          bottom: -48,
+          height: "42%",
+          y: reducedMotion ? 0 : mistY,
+          background: "linear-gradient(to top, hsl(var(--background)) 10%, hsl(var(--background) / 0.55) 45%, transparent 100%)",
+          pointerEvents: "none",
+        }}
+      />
+
+      <motion.div style={{ position: "absolute", inset: 0, overflow: "hidden", pointerEvents: "none", y: reducedMotion ? 0 : dotsY }}>
         <Box className="animate-float" sx={{ position: "absolute", top: 80, left: 40, width: 8, height: 8, borderRadius: "50%", bgcolor: "primary.main", opacity: 0.3 }} />
         <Box className="animate-float" sx={{ position: "absolute", top: 160, right: 80, width: 6, height: 6, borderRadius: "50%", bgcolor: "secondary.main", opacity: 0.4, animationDelay: "-2s" }} />
         <Box className="animate-float" sx={{ position: "absolute", bottom: 160, left: "25%", width: 4, height: 4, borderRadius: "50%", bgcolor: "warning.main", opacity: 0.3, animationDelay: "-4s" }} />
-      </Box>
+      </motion.div>
 
       <Box sx={{ position: "relative", zIndex: 10, maxWidth: 960, mx: "auto", px: { xs: 2, sm: 3, lg: 4 }, textAlign: "center", py: 10 }}>
+        <motion.div style={{ y: reducedMotion ? 0 : contentY }}>
         <motion.div
           initial={{ opacity: 0, scale: 0.5, y: 30 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
           style={{ marginBottom: 32 }}
         >
-          <motion.div data-testid="hero-portrait" style={{ position: "relative", display: "inline-block", y: reducedMotion ? 0 : portraitY }}>
+          <motion.div data-testid="hero-portrait" style={{ position: "relative", display: "inline-block", zIndex: 2, y: reducedMotion ? 0 : portraitY }}>
             <Avatar
               src={profilePhoto}
               alt="Pavithra Priyadarshini Selvakumar"
@@ -207,6 +228,7 @@ export function HeroSection() {
           >
             Google Scholar
           </Button>
+        </motion.div>
         </motion.div>
 
       </Box>
