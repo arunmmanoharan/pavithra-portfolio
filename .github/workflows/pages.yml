@@ -23,7 +23,9 @@ jobs:
         with:
           node-version: 22
           cache: npm
-      - run: npm ci
+      # drizzle-orm's optional react-native peers conflict with React 19
+      # under npm's strict resolver; match the lenient local install behavior.
+      - run: npm ci --legacy-peer-deps
       # Built for a custom domain at the site root. If serving from
       # arunmmanoharan.github.io/pavithra-portfolio/ instead, set
       # VITE_BASE_PATH: /pavithra-portfolio/ here.
