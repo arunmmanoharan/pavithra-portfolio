@@ -3,16 +3,19 @@ import Box from "@mui/material/Box";
 import { profileData } from "@/lib/portfolio-data";
 
 // A vertical route through the four research stations, living in the sticky
-// Experience margin like a map in a book chapter. It fills with the same
-// section progress that draws the career trail, so reading the chapter
-// completes the journey.
+// Experience margin like a map in a book chapter. The cards read from the
+// present backwards, so the map mirrors them: New York at the top, Chennai
+// at the bottom, tracing the path back to its origin as the chapter is read.
+// Waypoint fractions approximate where each place's cards sit in the trail.
 const ROUTE = "M20 8 C 30 40, 10 66, 20 92 C 28 112, 12 150, 20 176 C 26 198, 14 228, 20 252";
 const WAYPOINTS = [
-  { y: 8, fraction: 0.02 },
-  { y: 92, fraction: 0.34 },
-  { y: 176, fraction: 0.66 },
-  { y: 252, fraction: 0.97 },
+  { y: 8, fraction: 0.04 },
+  { y: 92, fraction: 0.42 },
+  { y: 176, fraction: 0.72 },
+  { y: 252, fraction: 0.96 },
 ];
+// journey data is chronological; the map reads it newest-first.
+const STOPS = [...profileData.journey].reverse();
 
 export function JourneyMap({ progress, reducedMotion }: { progress: MotionValue<number>; reducedMotion: boolean }) {
   const glows = [
@@ -48,7 +51,7 @@ export function JourneyMap({ progress, reducedMotion }: { progress: MotionValue<
           />
         ))}
       </svg>
-      {profileData.journey.map((stop, i) => (
+      {STOPS.map((stop, i) => (
         <motion.div
           key={stop.place}
           data-testid={`journey-label-${i}`}
